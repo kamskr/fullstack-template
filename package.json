@@ -1,0 +1,32 @@
+{
+  "name": "full-stack-template",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.34.3",
+  "scripts": {
+    "dev": "turbo dev --filter @template/api --filter @template/mobile --filter @template/web",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "format": "turbo format",
+    "api:dev": "pnpm --filter @template/api start:local:dev",
+    "api:build": "pnpm --filter @template/api build",
+    "api:test": "pnpm --filter @template/api test",
+    "api:openapi": "pnpm --filter @template/api openapi:generate",
+    "api-client:generate": "pnpm --filter @template/api-client generate",
+    "api-contract:generate": "pnpm api:openapi && pnpm api-client:generate",
+    "mobile:dev": "pnpm --filter @template/mobile start",
+    "web:dev": "pnpm --filter @template/web dev"
+  },
+  "devDependencies": {
+    "turbo": "^2.6.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@scarf/scarf",
+      "esbuild",
+      "lightningcss",
+      "unrs-resolver"
+    ]
+  }
+}

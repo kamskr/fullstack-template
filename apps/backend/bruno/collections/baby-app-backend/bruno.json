@@ -1,9 +1,0 @@
-{
-  "version": "1",
-  "name": "Baby App Backend",
-  "type": "collection",
-  "ignore": [
-    "node_modules",
-    ".git"
-  ]
-}

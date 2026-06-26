@@ -1,0 +1,128 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_getInfo",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppInfoModel"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "app"
+        ]
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "HealthController_getHealth",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "health"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Template API",
+    "description": "Backend API for the full-stack template.",
+    "version": "0.0.1",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "AppInfoModel": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "@template/api"
+          },
+          "version": {
+            "type": "string",
+            "example": "0.0.1"
+          },
+          "status": {
+            "type": "string",
+            "example": "ok"
+          },
+          "appEnv": {
+            "type": "string",
+            "example": "local"
+          },
+          "nodeEnv": {
+            "type": "string",
+            "example": "development"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "name",
+          "version",
+          "status",
+          "appEnv",
+          "nodeEnv",
+          "timestamp"
+        ]
+      },
+      "HealthResponseDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "example": "ok"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-06-16T19:30:00.000Z"
+          },
+          "uptimeSeconds": {
+            "type": "number",
+            "example": 12.345
+          },
+          "appEnv": {
+            "type": "string",
+            "example": "local"
+          },
+          "nodeEnv": {
+            "type": "string",
+            "example": "development"
+          }
+        },
+        "required": [
+          "status",
+          "timestamp",
+          "uptimeSeconds",
+          "appEnv",
+          "nodeEnv"
+        ]
+      }
+    }
+  }
+}

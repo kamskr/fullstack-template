@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    environment:
+      POSTGRES_DB: app_template
+      POSTGRES_USER: app_template
+      POSTGRES_PASSWORD: app_template
+    volumes:
+      - app_template_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app_template -d app_template"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  app_template_postgres_data:

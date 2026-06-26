@@ -1,0 +1,12 @@
+opencollection: 1.0.0
+info:
+  name: "Template API"
+  type: workspace
+
+collections:
+  - name: "Template API"
+    path: "collections/template-api"
+
+specs:
+
+docs: ''
