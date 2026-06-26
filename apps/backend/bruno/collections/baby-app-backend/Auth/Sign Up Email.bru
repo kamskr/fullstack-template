@@ -1,0 +1,25 @@
+meta {
+  name: Sign Up Email
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/auth/sign-up/email
+  body: json
+  auth: none
+}
+
+headers {
+  accept: application/json
+  content-type: application/json
+  origin: {{baseUrl}}
+}
+
+body:json {
+  {
+    "name": "{{authName}}",
+    "email": "{{authEmail}}",
+    "password": "{{authPassword}}"
+  }
+}

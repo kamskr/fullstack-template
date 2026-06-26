@@ -1,0 +1,15 @@
+meta {
+  name: Delete Timestamp
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/timestamps/{{timestampId}}
+  body: none
+  auth: none
+}
+
+headers {
+  accept: application/json
+}

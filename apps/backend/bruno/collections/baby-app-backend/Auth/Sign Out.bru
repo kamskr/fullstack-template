@@ -1,0 +1,16 @@
+meta {
+  name: Sign Out
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/api/auth/sign-out
+  body: none
+  auth: none
+}
+
+headers {
+  accept: application/json
+  origin: {{baseUrl}}
+}

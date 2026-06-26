@@ -1,0 +1,15 @@
+meta {
+  name: Get Timestamp
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/timestamps/{{timestampId}}
+  body: none
+  auth: none
+}
+
+headers {
+  accept: application/json
+}
