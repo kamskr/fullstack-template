@@ -13,6 +13,21 @@ import type {
   AppControllerGetInfoResponses,
   HealthControllerGetHealthData,
   HealthControllerGetHealthResponses,
+  TimestampsControllerCreateData,
+  TimestampsControllerCreateErrors,
+  TimestampsControllerCreateResponses,
+  TimestampsControllerFindAllData,
+  TimestampsControllerFindAllErrors,
+  TimestampsControllerFindAllResponses,
+  TimestampsControllerFindOneData,
+  TimestampsControllerFindOneErrors,
+  TimestampsControllerFindOneResponses,
+  TimestampsControllerRemoveData,
+  TimestampsControllerRemoveErrors,
+  TimestampsControllerRemoveResponses,
+  TimestampsControllerUpdateData,
+  TimestampsControllerUpdateErrors,
+  TimestampsControllerUpdateResponses,
 } from "./types.gen";
 
 export type Options<
@@ -50,3 +65,92 @@ export const healthControllerGetHealth = <ThrowOnError extends boolean = false>(
     unknown,
     ThrowOnError
   >({ url: "/health", ...options });
+
+export const timestampsControllerFindAll = <
+  ThrowOnError extends boolean = false,
+>(
+  options?: Options<TimestampsControllerFindAllData, ThrowOnError>,
+): RequestResult<
+  TimestampsControllerFindAllResponses,
+  TimestampsControllerFindAllErrors,
+  ThrowOnError
+> =>
+  (options?.client ?? client).get<
+    TimestampsControllerFindAllResponses,
+    TimestampsControllerFindAllErrors,
+    ThrowOnError
+  >({ url: "/timestamps", ...options });
+
+export const timestampsControllerCreate = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<TimestampsControllerCreateData, ThrowOnError>,
+): RequestResult<
+  TimestampsControllerCreateResponses,
+  TimestampsControllerCreateErrors,
+  ThrowOnError
+> =>
+  (options.client ?? client).post<
+    TimestampsControllerCreateResponses,
+    TimestampsControllerCreateErrors,
+    ThrowOnError
+  >({
+    url: "/timestamps",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });
+
+export const timestampsControllerRemove = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<TimestampsControllerRemoveData, ThrowOnError>,
+): RequestResult<
+  TimestampsControllerRemoveResponses,
+  TimestampsControllerRemoveErrors,
+  ThrowOnError
+> =>
+  (options.client ?? client).delete<
+    TimestampsControllerRemoveResponses,
+    TimestampsControllerRemoveErrors,
+    ThrowOnError
+  >({ url: "/timestamps/{id}", ...options });
+
+export const timestampsControllerFindOne = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<TimestampsControllerFindOneData, ThrowOnError>,
+): RequestResult<
+  TimestampsControllerFindOneResponses,
+  TimestampsControllerFindOneErrors,
+  ThrowOnError
+> =>
+  (options.client ?? client).get<
+    TimestampsControllerFindOneResponses,
+    TimestampsControllerFindOneErrors,
+    ThrowOnError
+  >({ url: "/timestamps/{id}", ...options });
+
+export const timestampsControllerUpdate = <
+  ThrowOnError extends boolean = false,
+>(
+  options: Options<TimestampsControllerUpdateData, ThrowOnError>,
+): RequestResult<
+  TimestampsControllerUpdateResponses,
+  TimestampsControllerUpdateErrors,
+  ThrowOnError
+> =>
+  (options.client ?? client).patch<
+    TimestampsControllerUpdateResponses,
+    TimestampsControllerUpdateErrors,
+    ThrowOnError
+  >({
+    url: "/timestamps/{id}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers,
+    },
+  });

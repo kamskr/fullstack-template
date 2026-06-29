@@ -28,6 +28,8 @@ Then open:
 - Swagger UI: http://localhost:3000/api
 - OpenAPI JSON: http://localhost:3000/api-json
 
+The web app uses `http://localhost:3001` during local development so `http://localhost:3000` stays reserved for the API.
+
 ## Commands
 
 ```bash

@@ -21,6 +21,24 @@ export type HealthResponseDto = {
   nodeEnv: string;
 };
 
+export type TimestampModel = {
+  id: string;
+  note: string;
+  dateOccurredAt: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type CreateTimestampModel = {
+  note: string;
+  dateOccurredAt: string;
+};
+
+export type UpdateTimestampModel = {
+  note?: string;
+  dateOccurredAt?: string;
+};
+
 export type AppControllerGetInfoData = {
   body?: never;
   path?: never;
@@ -48,3 +66,141 @@ export type HealthControllerGetHealthResponses = {
 
 export type HealthControllerGetHealthResponse =
   HealthControllerGetHealthResponses[keyof HealthControllerGetHealthResponses];
+
+export type TimestampsControllerFindAllData = {
+  body?: never;
+  path?: never;
+  query?: never;
+  url: "/timestamps";
+};
+
+export type TimestampsControllerFindAllErrors = {
+  /**
+   * Authentication required.
+   */
+  401: unknown;
+};
+
+export type TimestampsControllerFindAllResponses = {
+  200: Array<TimestampModel>;
+};
+
+export type TimestampsControllerFindAllResponse =
+  TimestampsControllerFindAllResponses[keyof TimestampsControllerFindAllResponses];
+
+export type TimestampsControllerCreateData = {
+  body: CreateTimestampModel;
+  path?: never;
+  query?: never;
+  url: "/timestamps";
+};
+
+export type TimestampsControllerCreateErrors = {
+  /**
+   * Authentication required.
+   */
+  401: unknown;
+};
+
+export type TimestampsControllerCreateResponses = {
+  201: TimestampModel;
+};
+
+export type TimestampsControllerCreateResponse =
+  TimestampsControllerCreateResponses[keyof TimestampsControllerCreateResponses];
+
+export type TimestampsControllerRemoveData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/timestamps/{id}";
+};
+
+export type TimestampsControllerRemoveErrors = {
+  /**
+   * Timestamp id must be a UUID.
+   */
+  400: unknown;
+  /**
+   * Authentication required.
+   */
+  401: unknown;
+  /**
+   * Timestamp not found.
+   */
+  404: unknown;
+};
+
+export type TimestampsControllerRemoveResponses = {
+  /**
+   * Timestamp deleted.
+   */
+  204: void;
+};
+
+export type TimestampsControllerRemoveResponse =
+  TimestampsControllerRemoveResponses[keyof TimestampsControllerRemoveResponses];
+
+export type TimestampsControllerFindOneData = {
+  body?: never;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/timestamps/{id}";
+};
+
+export type TimestampsControllerFindOneErrors = {
+  /**
+   * Timestamp id must be a UUID.
+   */
+  400: unknown;
+  /**
+   * Authentication required.
+   */
+  401: unknown;
+  /**
+   * Timestamp not found.
+   */
+  404: unknown;
+};
+
+export type TimestampsControllerFindOneResponses = {
+  200: TimestampModel;
+};
+
+export type TimestampsControllerFindOneResponse =
+  TimestampsControllerFindOneResponses[keyof TimestampsControllerFindOneResponses];
+
+export type TimestampsControllerUpdateData = {
+  body: UpdateTimestampModel;
+  path: {
+    id: string;
+  };
+  query?: never;
+  url: "/timestamps/{id}";
+};
+
+export type TimestampsControllerUpdateErrors = {
+  /**
+   * Timestamp id must be a UUID.
+   */
+  400: unknown;
+  /**
+   * Authentication required.
+   */
+  401: unknown;
+  /**
+   * Timestamp not found.
+   */
+  404: unknown;
+};
+
+export type TimestampsControllerUpdateResponses = {
+  200: TimestampModel;
+};
+
+export type TimestampsControllerUpdateResponse =
+  TimestampsControllerUpdateResponses[keyof TimestampsControllerUpdateResponses];

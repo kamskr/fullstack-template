@@ -42,6 +42,181 @@
           "health"
         ]
       }
+    },
+    "/timestamps": {
+      "get": {
+        "operationId": "TimestampsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TimestampModel"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required."
+          }
+        },
+        "tags": [
+          "timestamps"
+        ]
+      },
+      "post": {
+        "operationId": "TimestampsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTimestampModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimestampModel"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required."
+          }
+        },
+        "tags": [
+          "timestamps"
+        ]
+      }
+    },
+    "/timestamps/{id}": {
+      "get": {
+        "operationId": "TimestampsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimestampModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Timestamp id must be a UUID."
+          },
+          "401": {
+            "description": "Authentication required."
+          },
+          "404": {
+            "description": "Timestamp not found."
+          }
+        },
+        "tags": [
+          "timestamps"
+        ]
+      },
+      "patch": {
+        "operationId": "TimestampsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTimestampModel"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TimestampModel"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Timestamp id must be a UUID."
+          },
+          "401": {
+            "description": "Authentication required."
+          },
+          "404": {
+            "description": "Timestamp not found."
+          }
+        },
+        "tags": [
+          "timestamps"
+        ]
+      },
+      "delete": {
+        "operationId": "TimestampsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Timestamp deleted."
+          },
+          "400": {
+            "description": "Timestamp id must be a UUID."
+          },
+          "401": {
+            "description": "Authentication required."
+          },
+          "404": {
+            "description": "Timestamp not found."
+          }
+        },
+        "tags": [
+          "timestamps"
+        ]
+      }
     }
   },
   "info": {
@@ -122,6 +297,68 @@
           "appEnv",
           "nodeEnv"
         ]
+      },
+      "TimestampModel": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "note": {
+            "type": "string",
+            "example": "Wrote first timestamp note"
+          },
+          "dateOccurredAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "id",
+          "note",
+          "dateOccurredAt",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "CreateTimestampModel": {
+        "type": "object",
+        "properties": {
+          "note": {
+            "type": "string",
+            "example": "Wrote first timestamp note"
+          },
+          "dateOccurredAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "note",
+          "dateOccurredAt"
+        ]
+      },
+      "UpdateTimestampModel": {
+        "type": "object",
+        "properties": {
+          "note": {
+            "type": "string",
+            "example": "Updated timestamp note"
+          },
+          "dateOccurredAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
       }
     }
   }

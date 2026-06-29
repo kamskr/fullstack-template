@@ -8,8 +8,14 @@ import { App } from 'supertest/types';
 import { AppModule } from './../src/app.module';
 import { setupJsonBodyParsing } from './../src/body-parsing';
 import { HealthResponseDto } from './../src/health/dto/health-response.dto';
-import { AppInfoModel } from './../src/models';
+import { AppInfoModel, TimestampModel } from './../src/models';
 import { createOpenApiDocument, setupOpenApi } from './../src/openapi';
+
+type AnonymousSignInResponse = {
+  token?: string;
+  user?: { id?: string; isAnonymous?: boolean };
+};
+type TestAgent = ReturnType<typeof request.agent>;
 
 describe('AppController (e2e)', () => {
   let app: INestApplication<App>;
@@ -64,10 +70,7 @@ describe('AppController (e2e)', () => {
       .post('/api/auth/sign-in/anonymous')
       .set('origin', 'http://localhost:3000')
       .expect(200);
-    const body = response.body as {
-      token?: string;
-      user?: { id?: string; isAnonymous?: boolean };
-    };
+    const body = response.body as AnonymousSignInResponse;
 
     expect(typeof body.token).toBe('string');
     expect(typeof body.user?.id).toBe('string');
@@ -79,6 +82,104 @@ describe('AppController (e2e)', () => {
       .set('origin', 'http://localhost:3000')
       .expect(200)
       .expect({ success: true });
+  });
+
+  it('/timestamps requires authentication', async () => {
+    await request(app.getHttpServer()).get('/timestamps').expect(401);
+  });
+
+  it('/timestamps supports authenticated CRUD scoped to the current user', async () => {
+    const firstUser = await signInAnonymous();
+    const secondUser = await signInAnonymous();
+    const dateOccurredAt = '2026-06-26T12:00:00.000Z';
+
+    const createResponse = await firstUser
+      .post('/timestamps')
+      .send({
+        note: 'Initial timestamp note',
+        dateOccurredAt,
+      })
+      .expect(201);
+    const createdTimestamp = createResponse.body as TimestampModel;
+
+    expect(typeof createdTimestamp.id).toBe('string');
+    expect(createdTimestamp.note).toBe('Initial timestamp note');
+    expect(createdTimestamp.dateOccurredAt).toBe(dateOccurredAt);
+    expect(typeof createdTimestamp.createdAt).toBe('string');
+    expect(typeof createdTimestamp.updatedAt).toBe('string');
+    expect(createdTimestamp).not.toHaveProperty('userId');
+
+    const firstListResponse = await firstUser.get('/timestamps').expect(200);
+    const firstList = firstListResponse.body as TimestampModel[];
+
+    expect(firstList.map((timestamp) => timestamp.id)).toContain(
+      createdTimestamp.id,
+    );
+
+    const secondListResponse = await secondUser.get('/timestamps').expect(200);
+    const secondList = secondListResponse.body as TimestampModel[];
+
+    expect(secondList.map((timestamp) => timestamp.id)).not.toContain(
+      createdTimestamp.id,
+    );
+
+    await secondUser.get(`/timestamps/${createdTimestamp.id}`).expect(404);
+    await secondUser
+      .patch(`/timestamps/${createdTimestamp.id}`)
+      .send({ note: 'Cross-user update attempt' })
+      .expect(404);
+    await secondUser.delete(`/timestamps/${createdTimestamp.id}`).expect(404);
+
+    const getResponse = await firstUser
+      .get(`/timestamps/${createdTimestamp.id}`)
+      .expect(200);
+    const fetchedTimestamp = getResponse.body as TimestampModel;
+
+    expect(fetchedTimestamp.id).toBe(createdTimestamp.id);
+    expect(fetchedTimestamp.note).toBe('Initial timestamp note');
+
+    const updatedDateOccurredAt = '2026-06-26T13:00:00.000Z';
+    const updateResponse = await firstUser
+      .patch(`/timestamps/${createdTimestamp.id}`)
+      .send({
+        note: 'Updated timestamp note',
+        dateOccurredAt: updatedDateOccurredAt,
+      })
+      .expect(200);
+    const updatedTimestamp = updateResponse.body as TimestampModel;
+
+    expect(updatedTimestamp.id).toBe(createdTimestamp.id);
+    expect(updatedTimestamp.note).toBe('Updated timestamp note');
+    expect(updatedTimestamp.dateOccurredAt).toBe(updatedDateOccurredAt);
+
+    await firstUser.delete(`/timestamps/${createdTimestamp.id}`).expect(204);
+    await firstUser.get(`/timestamps/${createdTimestamp.id}`).expect(404);
+
+    await firstUser
+      .post('/api/auth/delete-anonymous-user')
+      .set('origin', 'http://localhost:3000')
+      .expect(200);
+    await secondUser
+      .post('/api/auth/delete-anonymous-user')
+      .set('origin', 'http://localhost:3000')
+      .expect(200);
+  });
+
+  it('/timestamps/:id rejects malformed ids before database queries', async () => {
+    const agent = await signInAnonymous();
+    const invalidId = 'paste-created-timestamp-id-here';
+
+    await agent.get(`/timestamps/${invalidId}`).expect(400);
+    await agent
+      .patch(`/timestamps/${invalidId}`)
+      .send({ note: 'Updated timestamp note' })
+      .expect(400);
+    await agent.delete(`/timestamps/${invalidId}`).expect(400);
+
+    await agent
+      .post('/api/auth/delete-anonymous-user')
+      .set('origin', 'http://localhost:3000')
+      .expect(200);
   });
 
   it('/api-json (GET)', async () => {
@@ -97,8 +198,8 @@ describe('AppController (e2e)', () => {
     expect(body.openapi).toBe(document.openapi);
     expect(body.paths).toHaveProperty('/health');
     expect(body.paths).toHaveProperty('/');
-    expect(body.paths).not.toHaveProperty('/children');
-    expect(body.paths).not.toHaveProperty('/timestamps');
+    expect(body.paths).toHaveProperty('/timestamps');
+    expect(body.paths).toHaveProperty('/timestamps/{id}');
   });
 
   it('keeps checked OpenAPI schema current', async () => {
@@ -113,4 +214,17 @@ describe('AppController (e2e)', () => {
   afterAll(async () => {
     await app.close();
   });
+
+  async function signInAnonymous(): Promise<TestAgent> {
+    const agent = request.agent(app.getHttpServer());
+    const response = await agent
+      .post('/api/auth/sign-in/anonymous')
+      .set('origin', 'http://localhost:3000')
+      .expect(200);
+    const body = response.body as AnonymousSignInResponse;
+
+    expect(typeof body.user?.id).toBe('string');
+
+    return agent;
+  }
 });

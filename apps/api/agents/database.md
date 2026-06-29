@@ -35,7 +35,7 @@ These values are mirrored in `.env.example`, `docker-compose.yml`, and `drizzle.
 
 - Config: `drizzle.config.ts`
 - Schema entrypoint: `src/database/schema/index.ts`
-- Domain tables: split by topic under `src/database/schema/` once a project adds real features.
+- Domain tables: split by topic under `src/database/schema/`. `timestamps.ts` is the template example feature.
 - Generated migrations: `drizzle/`
 - Nest adapter: `src/database/database.service.ts`
 
@@ -62,4 +62,4 @@ pnpm --filter @template/api test:e2e
 
 Use `DatabaseService` through dependency injection instead of importing a global client. This keeps tests and future app modules aligned with Nest conventions.
 
-The template baseline intentionally contains only Better Auth tables. Add app-domain tables per project, map Drizzle rows to API models, and generate migrations from the clean baseline.
+The template baseline contains Better Auth tables and a tiny authenticated `timestamps` example. Add app-domain tables per project, scope user-owned rows by `user_id`, map Drizzle rows to API models, and generate migrations from the current baseline.

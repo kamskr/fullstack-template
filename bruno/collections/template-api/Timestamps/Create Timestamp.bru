@@ -1,0 +1,23 @@
+meta {
+  name: Create Timestamp
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/timestamps
+  body: json
+  auth: none
+}
+
+headers {
+  accept: application/json
+  content-type: application/json
+}
+
+body:json {
+  {
+    "note": "Created from Bruno",
+    "dateOccurredAt": "2026-06-26T12:00:00.000Z"
+  }
+}

@@ -23,6 +23,13 @@ pnpm dev
 - Mobile Expo dev server.
 - Web TanStack Start/Vite dev server.
 
+Default local URLs:
+
+- API: `http://localhost:3000`
+- Web: `http://localhost:3001`
+
+Turbo is configured with `ui: "tui"`, so dev output opens in Turbo's terminal UI with selectable task log panes. The root `dev` script also uses `--continue` so one failed dev task does not immediately stop the others.
+
 Docker, migrations, and contract generation are separate explicit steps.
 
 Keep shared packages small. Prefer generated API contracts over shared runtime implementation.

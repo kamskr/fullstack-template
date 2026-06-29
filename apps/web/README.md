@@ -13,6 +13,12 @@ pnpm --filter @template/web test
 pnpm --filter @template/web lint
 ```
 
+Local web URL:
+
+```text
+http://localhost:3001
+```
+
 ## Architecture
 
 - Routing: TanStack Router / TanStack Start file routing.

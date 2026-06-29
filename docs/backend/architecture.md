@@ -11,4 +11,6 @@ Principles:
 - OpenAPI is generated from the running NestJS app and committed for client generation.
 - Local development uses Docker-backed PostgreSQL.
 
-Template baseline schema contains only Better Auth tables. Add domain tables per project and generate migrations from a clean initial state.
+Template baseline schema contains Better Auth tables plus a tiny authenticated `timestamps` example feature. Add project-domain tables per project and generate migrations from the existing template state.
+
+The `timestamps` feature demonstrates the backend pattern: DB rows are scoped by `user_id`, controllers return API models instead of Drizzle rows, and generated clients consume OpenAPI response models.

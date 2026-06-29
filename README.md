@@ -55,6 +55,14 @@ This runs app `dev` scripts through Turborepo:
 - Mobile: Expo dev server.
 - Web: Vite/TanStack Start dev server.
 
+Default local URLs:
+
+- API: `http://localhost:3000`
+- Web: `http://localhost:3001`
+- API Swagger UI: `http://localhost:3000/api`
+
+Turbo uses the terminal UI, so each dev task has its own selectable log pane. `--continue` keeps the other dev servers running if one task exits or fails.
+
 It does not run Docker, migrations, or contract generation.
 
 Run individual apps:
@@ -79,6 +87,20 @@ Outputs:
 - `packages/api-client/src/generated/`
 
 Keep TanStack Query hooks app-local in `apps/web` and `apps/mobile`.
+
+## Example Feature
+
+The API includes authenticated timestamp CRUD as a minimal full-stack contract example:
+
+```text
+GET    /timestamps
+POST   /timestamps
+GET    /timestamps/:id
+PATCH  /timestamps/:id
+DELETE /timestamps/:id
+```
+
+Timestamp rows are scoped to the current Better Auth user. The API response exposes `id`, `note`, `dateOccurredAt`, `createdAt`, and `updatedAt`; the internal `user_id` is not exposed.
 
 ## Checks
 

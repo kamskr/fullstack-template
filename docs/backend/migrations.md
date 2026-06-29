@@ -6,11 +6,12 @@ Baseline migration target:
 
 ```text
 apps/api/drizzle/0000_initial.sql
+apps/api/drizzle/0001_add_timestamps.sql
 apps/api/drizzle/meta/0000_snapshot.json
 apps/api/drizzle/meta/_journal.json
 ```
 
-The baseline schema should contain only generic template tables, currently Better Auth tables.
+The baseline schema contains Better Auth tables and the tiny authenticated `timestamps` example feature.
 
 When adding project-specific schema:
 

@@ -79,6 +79,7 @@ If you rename the collection directory, also update `bruno/workspace.yml` and `a
 
 ## Add Project Domain
 
+- Use the existing authenticated `timestamps` feature as the example pattern.
 - Add domain schema files under `apps/api/src/database/schema/`.
 - Export them from `apps/api/src/database/schema/index.ts`.
 - Add API models under `apps/api/src/models/`.

@@ -5,6 +5,7 @@
 - Swagger UI: `/api`
 - OpenAPI JSON: `/api-json`
 - Health: `/health`
+- Timestamps: `/timestamps`
 - Checked-in schema: `docs/openapi.json`
 
 `/docs` is intentionally unused so it remains available for product/API documentation if needed later.
@@ -47,6 +48,8 @@ When adding or changing an endpoint:
 9. Check `docs/openapi.json`, `packages/api-client/src/generated/`, or `/api-json` and confirm the schema includes the route and DTO models needed by client apps.
 
 Client apps should generate models/clients from `docs/openapi.json` in source control, or from the runtime OpenAPI JSON route (`/api-json`) during local experiments.
+
+The `timestamps` feature is the template reference for generated client usage. It exposes only API models (`TimestampModel`, `CreateTimestampModel`, `UpdateTimestampModel`) and does not expose internal `user_id` persistence fields.
 
 ## Health
 

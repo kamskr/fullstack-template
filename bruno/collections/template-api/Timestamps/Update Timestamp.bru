@@ -1,0 +1,23 @@
+meta {
+  name: Update Timestamp
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseUrl}}/timestamps/{{timestampId}}
+  body: json
+  auth: none
+}
+
+headers {
+  accept: application/json
+  content-type: application/json
+}
+
+body:json {
+  {
+    "note": "Updated from Bruno",
+    "dateOccurredAt": "2026-06-26T13:00:00.000Z"
+  }
+}

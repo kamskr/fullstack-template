@@ -31,6 +31,16 @@ Local docs:
 
 Bruno API requests live at the repo root in `bruno/`.
 
+## Example Feature
+
+Authenticated timestamp CRUD is available under `/timestamps`. Use it as the reference for adding a domain feature:
+
+- schema: `src/database/schema/timestamps.ts`
+- Nest module: `src/timestamps/`
+- API models: `src/models/*timestamp*.ts`
+- Bruno requests: `bruno/collections/template-api/Timestamps/`
+- generated client: `packages/api-client/src/generated/`
+
 ## API Client
 
 Generate OpenAPI and the shared TypeScript API client:

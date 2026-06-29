@@ -9,6 +9,7 @@ import { envFilePaths } from './config/env-file-paths';
 import { envValidationSchema } from './config/env.validation';
 import { DatabaseModule } from './database/database.module';
 import { HealthModule } from './health/health.module';
+import { TimestampsModule } from './timestamps/timestamps.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { HealthModule } from './health/health.module';
     AppAuthModule,
     DatabaseModule,
     HealthModule,
+    TimestampsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
