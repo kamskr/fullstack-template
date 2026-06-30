@@ -4,6 +4,8 @@
 
 Better Auth runs inside NestJS at `/api/auth/*` through `@thallesp/nestjs-better-auth`.
 
+The API also installs `@better-auth/expo` so Expo native clients can persist and replay auth cookies through the Better Auth Expo client plugin.
+
 Useful smoke check:
 
 ```bash
@@ -61,6 +63,14 @@ Required env keys are documented in `.env.example`:
 - `BETTER_AUTH_SECRET`: 32+ chars. Use `openssl rand -base64 32` for real environments.
 - `BETTER_AUTH_URL`: backend base URL, e.g. `http://localhost:3000` locally.
 - `BETTER_AUTH_TRUSTED_ORIGINS`: comma-separated origins allowed for auth callbacks/CORS.
+
+Local template defaults include web and Expo dev origins:
+
+```text
+http://localhost:3000,http://localhost:3001,templatemobile://,templatemobile://*,exp://,exp://**
+```
+
+Keep these explicit for cookie auth. Do not use `*` for browser credentialed requests.
 
 Local defaults are intentionally non-production. Do not reuse them in staging or production.
 

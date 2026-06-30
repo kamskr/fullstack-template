@@ -1,5 +1,7 @@
 import { drizzleAdapter } from '@better-auth/drizzle-adapter';
+import { expo } from '@better-auth/expo';
 import { betterAuth } from 'better-auth';
+import type { Auth } from 'better-auth';
 import { anonymous } from 'better-auth/plugins';
 import { eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/postgres-js';
@@ -13,10 +15,19 @@ const defaultDatabaseUrl =
   'postgres://app_template:app_template@localhost:5432/app_template';
 const defaultBetterAuthSecret =
   'local-development-better-auth-secret-change-me-32';
+const defaultTrustedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'templatemobile://',
+  'templatemobile://*',
+  'exp://',
+  'exp://**',
+];
 
-const trustedOrigins = process.env.BETTER_AUTH_TRUSTED_ORIGINS?.split(',')
-  .map((origin) => origin.trim())
-  .filter(Boolean);
+export const trustedOrigins =
+  process.env.BETTER_AUTH_TRUSTED_ORIGINS?.split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean) ?? defaultTrustedOrigins;
 
 export const authSql = postgres(
   process.env.DATABASE_URL ?? defaultDatabaseUrl,
@@ -25,7 +36,7 @@ export const authSql = postgres(
 
 export const authDb = drizzle(authSql, { schema });
 
-export const auth = betterAuth({
+export const auth: Auth<any> = betterAuth({
   appName: 'Full Stack Template',
   baseURL: process.env.BETTER_AUTH_URL ?? 'http://localhost:3000',
   secret: process.env.BETTER_AUTH_SECRET ?? defaultBetterAuthSecret,
@@ -37,6 +48,7 @@ export const auth = betterAuth({
     enabled: true,
   },
   plugins: [
+    expo(),
     anonymous({
       onLinkAccount: async ({ anonymousUser, newUser }) => {
         await authDb

@@ -8,6 +8,7 @@ Principles:
 - Controllers stay thin; services own business behavior.
 - Drizzle schema and migrations live with the API app.
 - Better Auth is part of the template baseline.
+- Better Auth includes the Expo plugin so native clients can use SecureStore-backed auth cookies.
 - OpenAPI is generated from the running NestJS app and committed for client generation.
 - Local development uses Docker-backed PostgreSQL.
 

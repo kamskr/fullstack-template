@@ -9,7 +9,16 @@ async function bootstrap() {
     bodyParser: false,
   });
   const configService = app.get(ConfigService);
+  const trustedOrigins = configService
+    .get<string>('BETTER_AUTH_TRUSTED_ORIGINS')
+    ?.split(',')
+    .map((origin) => origin.trim())
+    .filter(Boolean) ?? ['http://localhost:3000', 'http://localhost:3001'];
 
+  app.enableCors({
+    origin: trustedOrigins,
+    credentials: true,
+  });
   setupJsonBodyParsing(app);
   setupOpenApi(app);
 

@@ -1,98 +1,81 @@
-import * as Device from 'expo-device';
-import { Platform, StyleSheet } from 'react-native';
+import { router } from 'expo-router';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { AnimatedIcon } from '@/components/animated-icon';
-import { HintRow } from '@/components/hint-row';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-
-function getDevMenuHint() {
-  if (Platform.OS === 'web') {
-    return <ThemedText type="small">use browser devtools</ThemedText>;
-  }
-  if (Device.isDevice) {
-    return (
-      <ThemedText type="small">
-        shake device or press <ThemedText type="code">m</ThemedText> in terminal
-      </ThemedText>
-    );
-  }
-  const shortcut = Platform.OS === 'android' ? 'cmd+m (or ctrl+m)' : 'cmd+d';
-  return (
-    <ThemedText type="small">
-      press <ThemedText type="code">{shortcut}</ThemedText>
-    </ThemedText>
-  );
-}
+import { Spacing } from '@/constants/theme';
+import { authClient } from '@/lib/auth-client';
 
 export default function HomeScreen() {
+  const session = authClient.useSession();
+  const isSignedIn = Boolean(session.data);
+
   return (
     <ThemedView style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
-        <ThemedView style={styles.heroSection}>
-          <AnimatedIcon />
-          <ThemedText type="title" style={styles.title}>
-            Welcome to&nbsp;Expo
+        <View style={styles.hero}>
+          <ThemedText type="smallBold" style={styles.kicker}>
+            Template Mobile
           </ThemedText>
-        </ThemedView>
+          <ThemedText type="title" style={styles.title}>
+            Authenticated CRUD, native-ready.
+          </ThemedText>
+          <ThemedText themeColor="textSecondary" style={styles.copy}>
+            Better Auth stores mobile cookies with SecureStore. TanStack Query
+            owns timestamp data. Generated OpenAPI clients hit the same Nest API
+            as web.
+          </ThemedText>
+        </View>
 
-        <ThemedText type="code" style={styles.code}>
-          get started
-        </ThemedText>
-
-        <ThemedView type="backgroundElement" style={styles.stepContainer}>
-          <HintRow
-            title="Try editing"
-            hint={<ThemedText type="code">src/app/index.tsx</ThemedText>}
-          />
-          <HintRow title="Dev tools" hint={getDevMenuHint()} />
-          <HintRow
-            title="Fresh start"
-            hint={<ThemedText type="code">pnpm reset-project</ThemedText>}
-          />
-        </ThemedView>
-
-        {Platform.OS === 'web' && <WebBadge />}
+        {session.isPending ? (
+          <ThemedText themeColor="textSecondary">Checking session…</ThemedText>
+        ) : (
+          <View style={styles.actions}>
+            <Pressable
+              style={styles.primaryButton}
+              onPress={() => router.push(isSignedIn ? '/timestamps' : '/login')}>
+              <ThemedText type="smallBold" style={styles.primaryButtonText}>
+                {isSignedIn ? 'Open timestamps' : 'Login'}
+              </ThemedText>
+            </Pressable>
+            <Pressable
+              style={styles.secondaryButton}
+              onPress={() => router.push('/create-account')}>
+              <ThemedText type="smallBold">Create account</ThemedText>
+            </Pressable>
+          </View>
+        )}
       </SafeAreaView>
     </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
+  container: { flex: 1 },
   safeArea: {
     flex: 1,
-    paddingHorizontal: Spacing.four,
-    alignItems: 'center',
-    gap: Spacing.three,
-    paddingBottom: BottomTabInset + Spacing.three,
-    maxWidth: MaxContentWidth,
-  },
-  heroSection: {
-    alignItems: 'center',
     justifyContent: 'center',
-    flex: 1,
-    paddingHorizontal: Spacing.four,
-    gap: Spacing.four,
+    padding: Spacing.four,
+    gap: Spacing.five,
   },
-  title: {
-    textAlign: 'center',
+  hero: { gap: Spacing.three },
+  kicker: { letterSpacing: 2, textTransform: 'uppercase' },
+  title: { fontSize: 44, lineHeight: 48 },
+  copy: { fontSize: 16, lineHeight: 24 },
+  actions: { gap: Spacing.three },
+  primaryButton: {
+    borderRadius: 18,
+    padding: Spacing.four,
+    alignItems: 'center',
+    backgroundColor: '#328f97',
   },
-  code: {
-    textTransform: 'uppercase',
-  },
-  stepContainer: {
-    gap: Spacing.three,
-    alignSelf: 'stretch',
-    paddingHorizontal: Spacing.three,
-    paddingVertical: Spacing.four,
-    borderRadius: Spacing.four,
+  primaryButtonText: { color: 'white' },
+  secondaryButton: {
+    borderRadius: 18,
+    padding: Spacing.four,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(50,143,151,0.32)',
   },
 });
