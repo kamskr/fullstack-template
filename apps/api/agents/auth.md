@@ -33,7 +33,7 @@ Expected shape:
 {"token":"...","user":{"id":"...","isAnonymous":true}}
 ```
 
-The plugin adds `user.is_anonymous` in Drizzle/PostgreSQL. Default Better Auth linking behavior is in use: when an anonymous session signs in/signs up with another method, Better Auth deletes the previous anonymous user after linking. Add `onLinkAccount` only when domain tables need data transfer from anonymous users to permanent users.
+The plugin adds `user.is_anonymous` in Drizzle/PostgreSQL. The template config uses `onLinkAccount` to move timestamp rows from the anonymous user id to the newly linked email/password user id before Better Auth deletes the anonymous user.
 
 Anonymous users can delete themselves with:
 

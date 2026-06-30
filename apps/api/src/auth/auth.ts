@@ -1,6 +1,7 @@
 import { drizzleAdapter } from '@better-auth/drizzle-adapter';
 import { betterAuth } from 'better-auth';
 import { anonymous } from 'better-auth/plugins';
+import { eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 import { loadEnvFiles } from '../config/load-env-files';
@@ -35,7 +36,16 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
   },
-  plugins: [anonymous()],
+  plugins: [
+    anonymous({
+      onLinkAccount: async ({ anonymousUser, newUser }) => {
+        await authDb
+          .update(schema.timestamps)
+          .set({ userId: newUser.user.id, updatedAt: new Date() })
+          .where(eq(schema.timestamps.userId, anonymousUser.user.id));
+      },
+    }),
+  ],
   trustedOrigins,
 });
 

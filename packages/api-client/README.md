@@ -15,3 +15,5 @@ pnpm api-contract:generate
 ```
 
 This package should stay contract/client-only. Keep TanStack Query hooks app-local in `apps/web` and `apps/mobile`.
+
+The package exports generated operations/types plus `apiClient` for app-local configuration, e.g. setting `baseUrl` and `credentials` in each client app.

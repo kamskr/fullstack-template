@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { randomUUID } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import request from 'supertest';
@@ -180,6 +181,36 @@ describe('AppController (e2e)', () => {
       .post('/api/auth/delete-anonymous-user')
       .set('origin', 'http://localhost:3000')
       .expect(200);
+  });
+
+  it('transfers anonymous timestamps when the user creates an email account', async () => {
+    const agent = await signInAnonymous();
+    const createResponse = await agent
+      .post('/timestamps')
+      .send({
+        note: 'Anonymous timestamp before signup',
+        dateOccurredAt: '2026-06-27T10:30:00.000Z',
+      })
+      .expect(201);
+    const createdTimestamp = createResponse.body as TimestampModel;
+
+    await agent
+      .post('/api/auth/sign-up/email')
+      .set('origin', 'http://localhost:3000')
+      .send({
+        name: 'Linked Timestamp User',
+        email: `linked-${randomUUID()}@example.test`,
+        password: 'correct-horse-battery-staple',
+      })
+      .expect(200);
+
+    const listResponse = await agent.get('/timestamps').expect(200);
+    const timestamps = listResponse.body as TimestampModel[];
+
+    expect(timestamps.map((timestamp) => timestamp.id)).toContain(
+      createdTimestamp.id,
+    );
+    await agent.get(`/timestamps/${createdTimestamp.id}`).expect(200);
   });
 
   it('/api-json (GET)', async () => {

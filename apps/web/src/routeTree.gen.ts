@@ -9,12 +9,25 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AboutRouteImport } from './routes/about'
+import { Route as TimestampsRouteImport } from './routes/timestamps'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as CreateAccountRouteImport } from './routes/create-account'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as TimestampsTimestampIdRouteImport } from './routes/timestamps.$timestampId'
 
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
+const TimestampsRoute = TimestampsRouteImport.update({
+  id: '/timestamps',
+  path: '/timestamps',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CreateAccountRoute = CreateAccountRouteImport.update({
+  id: '/create-account',
+  path: '/create-account',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -22,40 +35,86 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TimestampsTimestampIdRoute = TimestampsTimestampIdRouteImport.update({
+  id: '/$timestampId',
+  path: '/$timestampId',
+  getParentRoute: () => TimestampsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/create-account': typeof CreateAccountRoute
+  '/login': typeof LoginRoute
+  '/timestamps': typeof TimestampsRouteWithChildren
+  '/timestamps/$timestampId': typeof TimestampsTimestampIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/create-account': typeof CreateAccountRoute
+  '/login': typeof LoginRoute
+  '/timestamps': typeof TimestampsRouteWithChildren
+  '/timestamps/$timestampId': typeof TimestampsTimestampIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/about': typeof AboutRoute
+  '/create-account': typeof CreateAccountRoute
+  '/login': typeof LoginRoute
+  '/timestamps': typeof TimestampsRouteWithChildren
+  '/timestamps/$timestampId': typeof TimestampsTimestampIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
+  fullPaths:
+    | '/'
+    | '/create-account'
+    | '/login'
+    | '/timestamps'
+    | '/timestamps/$timestampId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
+  to:
+    | '/'
+    | '/create-account'
+    | '/login'
+    | '/timestamps'
+    | '/timestamps/$timestampId'
+  id:
+    | '__root__'
+    | '/'
+    | '/create-account'
+    | '/login'
+    | '/timestamps'
+    | '/timestamps/$timestampId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  AboutRoute: typeof AboutRoute
+  CreateAccountRoute: typeof CreateAccountRoute
+  LoginRoute: typeof LoginRoute
+  TimestampsRoute: typeof TimestampsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/timestamps': {
+      id: '/timestamps'
+      path: '/timestamps'
+      fullPath: '/timestamps'
+      preLoaderRoute: typeof TimestampsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/create-account': {
+      id: '/create-account'
+      path: '/create-account'
+      fullPath: '/create-account'
+      preLoaderRoute: typeof CreateAccountRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -65,12 +124,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/timestamps/$timestampId': {
+      id: '/timestamps/$timestampId'
+      path: '/$timestampId'
+      fullPath: '/timestamps/$timestampId'
+      preLoaderRoute: typeof TimestampsTimestampIdRouteImport
+      parentRoute: typeof TimestampsRoute
+    }
   }
 }
 
+interface TimestampsRouteChildren {
+  TimestampsTimestampIdRoute: typeof TimestampsTimestampIdRoute
+}
+
+const TimestampsRouteChildren: TimestampsRouteChildren = {
+  TimestampsTimestampIdRoute: TimestampsTimestampIdRoute,
+}
+
+const TimestampsRouteWithChildren = TimestampsRoute._addFileChildren(
+  TimestampsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  AboutRoute: AboutRoute,
+  CreateAccountRoute: CreateAccountRoute,
+  LoginRoute: LoginRoute,
+  TimestampsRoute: TimestampsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

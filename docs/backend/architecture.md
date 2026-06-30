@@ -13,4 +13,4 @@ Principles:
 
 Template baseline schema contains Better Auth tables plus a tiny authenticated `timestamps` example feature. Add project-domain tables per project and generate migrations from the existing template state.
 
-The `timestamps` feature demonstrates the backend pattern: DB rows are scoped by `user_id`, controllers return API models instead of Drizzle rows, and generated clients consume OpenAPI response models.
+The `timestamps` feature demonstrates the backend pattern: DB rows are scoped by `user_id`, controllers return API models instead of Drizzle rows, and generated clients consume OpenAPI response models. When an anonymous Better Auth user links/signs up with email/password, the anonymous plugin transfer hook moves timestamp rows from the anonymous user id to the new user id.
