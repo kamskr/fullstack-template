@@ -25,10 +25,12 @@
     "@tanstack/react-start": "latest",
     "@tanstack/router-plugin": "^1.132.0",
     "@template/api-client": "workspace:*",
+    "@template/validators": "workspace:*",
     "better-auth": "^1.6.23",
     "lucide-react": "^0.545.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
+    "react-hook-form": "^7.80.0",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {

@@ -1,5 +1,7 @@
-import { useState } from 'react'
+import { createTimestampFormSchema } from '@template/validators'
 import type { TimestampModel } from '@template/api-client'
+import { useForm } from 'react-hook-form'
+import type { TimestampFormValues } from '@template/validators'
 
 type TimestampFormProps = {
   submitLabel: string
@@ -14,24 +16,23 @@ export function TimestampForm({
   isPending,
   onSubmit,
 }: TimestampFormProps) {
-  const [note, setNote] = useState(timestamp?.note ?? '')
+  const { handleSubmit, register } = useForm<TimestampFormValues>({
+    defaultValues: { note: timestamp?.note ?? '' },
+  })
 
   return (
     <form
       className="grid gap-4"
-      onSubmit={(event) => {
-        event.preventDefault()
-        onSubmit({ note })
-      }}
+      onSubmit={handleSubmit((values) => {
+        onSubmit(createTimestampFormSchema.parse(values))
+      })}
     >
       <label className="grid gap-2 text-sm font-bold text-[var(--sea-ink)]">
         Note
         <textarea
           className="demo-textarea"
-          value={note}
-          onChange={(event) => setNote(event.target.value)}
+          {...register('note')}
           placeholder="Coffee with a clear intent. Shipped a small thing."
-          required
         />
       </label>
       <button className="demo-button" type="submit" disabled={isPending}>

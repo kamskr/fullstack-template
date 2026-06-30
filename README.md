@@ -17,6 +17,7 @@ apps/api              NestJS API
 apps/mobile           Expo app
 apps/web              TanStack Start app
 packages/api-client   generated TypeScript API client
+packages/validators   shared Zod schemas for form/API input shapes
 bruno/                API request workspace
 docs/                 architecture and workflow docs
 agents/               notes for future agents
@@ -86,7 +87,7 @@ Outputs:
 - `apps/api/docs/openapi.json`
 - `packages/api-client/src/generated/`
 
-Keep TanStack Query hooks app-local in `apps/web` and `apps/mobile`.
+Keep TanStack Query hooks app-local in `apps/web` and `apps/mobile`. Keep cross-app Zod schemas in `packages/validators` when web, mobile, and API should share the same input shape.
 
 ## Example Feature
 

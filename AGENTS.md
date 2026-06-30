@@ -9,7 +9,9 @@ Build this repo as a reusable full-stack template: NestJS API, Expo mobile app, 
 - `apps/api`: NestJS API with PostgreSQL, Drizzle, Better Auth, OpenAPI.
 - `apps/mobile`: Expo / React Native app.
 - `apps/web`: TanStack Start web app.
-- `packages/`: intentionally small shared packages. Prefer API contracts over shared implementation.
+- `packages/api-client`: generated API client and types.
+- `packages/validators`: shared Zod input schemas used across app forms and API boundaries.
+- `packages/`: intentionally small shared packages. Prefer API contracts and validation schemas over shared implementation.
 - `bruno/`: repo-level API request workspace.
 - `docs/`: durable architecture and workflow docs.
 - `agents/`: monorepo-wide notes for future agents.
@@ -19,7 +21,7 @@ Build this repo as a reusable full-stack template: NestJS API, Expo mobile app, 
 - Use pnpm workspaces from the repo root.
 - Use Turborepo for cross-package scripts.
 - Keep app `.gitignore` files app-local unless a rule is truly repo-wide.
-- Share contracts, not implementation.
+- Share contracts and validation schemas, not implementation.
 - Backend is the source of truth for API behavior.
 - Do not add `shared`, `common`, `core`, `utils`, or UI packages until repeated real use proves the need.
 

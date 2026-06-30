@@ -13,3 +13,5 @@ Generated Hey API client config lives in `src/lib/api-client.ts`. Native request
 Set `EXPO_PUBLIC_API_BASE_URL` for non-iOS-simulator targets. Defaults: Android emulator `http://10.0.2.2:3000`, others `http://localhost:3000`.
 
 Current template routes: `/login`, `/create-account`, `/timestamps`, `/timestamps/[timestampId]`.
+
+Forms use React Hook Form. Shared Zod schemas live in `@template/validators`; native forms currently parse on submit without validation UI.

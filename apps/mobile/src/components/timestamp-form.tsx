@@ -1,6 +1,8 @@
-import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
 import { StyleSheet, TextInput, View } from 'react-native';
 import type { TimestampModel } from '@template/api-client';
+import { createTimestampFormSchema } from '@template/validators';
+import type { TimestampFormValues } from '@template/validators';
 
 import { Spacing } from '@/constants/theme';
 import { ActionButton } from './action-button';
@@ -19,24 +21,34 @@ export function TimestampForm({
   isPending,
   onSubmit,
 }: TimestampFormProps) {
-  const [note, setNote] = useState(timestamp?.note ?? '');
+  const { control, handleSubmit } = useForm<TimestampFormValues>({
+    defaultValues: { note: timestamp?.note ?? '' },
+  });
 
   return (
     <View style={styles.form}>
       <View style={styles.field}>
         <ThemedText type="smallBold">Note</ThemedText>
-        <TextInput
-          value={note}
-          onChangeText={setNote}
-          placeholder="Shipped something small."
-          multiline
-          style={[styles.input, styles.textArea]}
+        <Controller
+          control={control}
+          name="note"
+          render={({ field: { onChange, value } }) => (
+            <TextInput
+              value={value}
+              onChangeText={onChange}
+              placeholder="Shipped something small."
+              multiline
+              style={[styles.input, styles.textArea]}
+            />
+          )}
         />
       </View>
       <ActionButton
         label={isPending ? 'Saving…' : submitLabel}
         disabled={isPending}
-        onPress={() => onSubmit({ note })}
+        onPress={handleSubmit((values) => {
+          onSubmit(createTimestampFormSchema.parse(values));
+        })}
       />
     </View>
   );

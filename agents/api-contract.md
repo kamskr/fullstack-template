@@ -31,3 +31,5 @@ pnpm api-contract:generate
 That package should contain generated TypeScript models/client plus a very thin optional helper layer. Do not share backend implementation code with frontend apps.
 
 Keep TanStack Query hooks app-local in `apps/web` and `apps/mobile`.
+
+Shared Zod schemas live in `packages/validators`. Use them for cross-client form/API input shapes; do not put query hooks or implementation logic there.

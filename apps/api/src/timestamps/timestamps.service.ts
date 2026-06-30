@@ -3,6 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { timestampNoteSchema } from '@template/validators';
 import { and, desc, eq } from 'drizzle-orm';
 import { DatabaseService } from '../database/database.service';
 import { timestamps } from '../database/schema';
@@ -112,16 +113,12 @@ export class TimestampsService {
 }
 
 function parseNote(note: unknown): string {
-  if (typeof note !== 'string') {
-    throw new BadRequestException('note must be a string');
-  }
-
-  const trimmedNote = note.trim();
-  if (!trimmedNote) {
+  const result = timestampNoteSchema.safeParse(note);
+  if (!result.success) {
     throw new BadRequestException('note cannot be empty');
   }
 
-  return trimmedNote;
+  return result.data;
 }
 
 function parseDate(value: unknown, fieldName: string): Date {

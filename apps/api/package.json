@@ -41,6 +41,7 @@
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.4.4",
+    "@template/validators": "workspace:*",
     "@thallesp/nestjs-better-auth": "^2.6.1",
     "better-auth": "^1.6.23",
     "drizzle-orm": "^0.45.2",
