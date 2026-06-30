@@ -26,8 +26,8 @@ Template screens:
 
 - `/login`: email/password login plus anonymous login.
 - `/create-account`: email/password signup. Anonymous timestamps transfer to the created account through the API auth hook.
-- `/timestamps`: authenticated timestamp list, create, delete.
-- `/timestamps/[timestampId]`: authenticated timestamp details, edit, delete.
+- `/timestamps`: authenticated timestamp list, create with current time, delete.
+- `/timestamps/[timestampId]`: authenticated timestamp details, edit note, delete.
 
 Set `EXPO_PUBLIC_API_BASE_URL` when running against a device or emulator:
 

@@ -30,8 +30,8 @@ Template screens:
 
 - `/login`: email/password login plus anonymous login.
 - `/create-account`: email/password signup. If the current session is anonymous, Better Auth links the account and the API transfers timestamps to the new user.
-- `/timestamps`: authenticated timestamp list, create, delete.
-- `/timestamps/$timestampId`: authenticated timestamp details, edit, delete.
+- `/timestamps`: authenticated timestamp list, create with current time, delete.
+- `/timestamps/$timestampId`: authenticated timestamp details, edit note, delete.
 
 Set `VITE_API_BASE_URL` to override the API URL. Default: `http://localhost:3000`.
 

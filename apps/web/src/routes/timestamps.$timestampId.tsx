@@ -22,7 +22,7 @@ function TimestampDetailRoute() {
     queryFn: () => getTimestamp(timestampId),
   })
   const updateMutation = useMutation({
-    mutationFn: (values: { note: string; dateOccurredAt: string }) =>
+    mutationFn: (values: { note: string }) =>
       updateTimestamp(timestampId, values),
     onSuccess: async () => {
       await Promise.all([

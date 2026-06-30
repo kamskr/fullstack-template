@@ -42,7 +42,12 @@ function TimestampsRoute() {
             <TimestampForm
               submitLabel="Create timestamp"
               isPending={createMutation.isPending}
-              onSubmit={(values) => createMutation.mutate(values)}
+              onSubmit={(values) =>
+                createMutation.mutate({
+                  ...values,
+                  dateOccurredAt: new Date().toISOString(),
+                })
+              }
             />
             {createMutation.error ? (
               <p className="demo-alert demo-alert-danger mt-4">

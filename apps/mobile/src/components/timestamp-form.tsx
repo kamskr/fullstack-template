@@ -10,7 +10,7 @@ type TimestampFormProps = {
   submitLabel: string;
   timestamp?: TimestampModel;
   isPending?: boolean;
-  onSubmit: (values: { note: string; dateOccurredAt: string }) => void;
+  onSubmit: (values: { note: string }) => void;
 };
 
 export function TimestampForm({
@@ -20,9 +20,6 @@ export function TimestampForm({
   onSubmit,
 }: TimestampFormProps) {
   const [note, setNote] = useState(timestamp?.note ?? '');
-  const [dateOccurredAt, setDateOccurredAt] = useState(
-    timestamp?.dateOccurredAt ?? new Date().toISOString(),
-  );
 
   return (
     <View style={styles.form}>
@@ -36,20 +33,10 @@ export function TimestampForm({
           style={[styles.input, styles.textArea]}
         />
       </View>
-      <View style={styles.field}>
-        <ThemedText type="smallBold">Occurred at ISO time</ThemedText>
-        <TextInput
-          value={dateOccurredAt}
-          onChangeText={setDateOccurredAt}
-          autoCapitalize="none"
-          autoCorrect={false}
-          style={styles.input}
-        />
-      </View>
       <ActionButton
         label={isPending ? 'Saving…' : submitLabel}
         disabled={isPending}
-        onPress={() => onSubmit({ note, dateOccurredAt })}
+        onPress={() => onSubmit({ note })}
       />
     </View>
   );
