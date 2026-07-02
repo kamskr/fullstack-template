@@ -3,7 +3,8 @@
   "compilerOptions": {
     "module": "ESNext",
     "noEmit": true,
-    "strict": true
+    "strict": true,
+    "ignoreDeprecations": "6.0"
   },
   "include": ["src/**/*.ts"]
 }

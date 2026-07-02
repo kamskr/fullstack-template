@@ -12,7 +12,7 @@
     "api:dev": "pnpm --filter @template/api start:local:dev",
     "api:build": "pnpm --filter @template/api build",
     "api:test": "pnpm --filter @template/api test",
-    "api:openapi": "pnpm --filter @template/api openapi:generate",
+    "api:openapi": "turbo openapi:generate --filter @template/api",
     "api-client:generate": "pnpm --filter @template/api-client generate",
     "api-contract:generate": "pnpm api:openapi && pnpm api-client:generate",
     "mobile:dev": "pnpm --filter @template/mobile start",
