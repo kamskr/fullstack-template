@@ -18,6 +18,8 @@ Expo SDK 56 differs from what older training data describes. Read https://docs.e
 
 Mobile architecture notes: `../../docs/mobile/architecture.md`.
 
+Adding native modules or switching to a development build: `../../docs/mobile/native-modules.md`.
+
 For changes to behavior, routes, auth, config, or workflow: run the `.agents/skills/docs-impact` skill (repo root) and update the relevant doc, or state `docs unaffected` with a reason.
 
 ## Verification
