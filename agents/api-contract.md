@@ -33,3 +33,5 @@ That package should contain generated TypeScript models/client plus a very thin 
 Keep TanStack Query hooks app-local in `apps/web` and `apps/mobile`.
 
 Shared Zod schemas live in `packages/validators`. Use them for cross-client form/API input shapes; do not put query hooks or implementation logic there.
+
+When adding or changing endpoints, also add/update the matching Bruno requests in `bruno/` (see `agents/bruno.md`) in the same change — the root `AGENTS.md` maintenance rule includes Bruno collections, but it is easy to miss from here.
