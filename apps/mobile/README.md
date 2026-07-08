@@ -10,7 +10,6 @@ From the repo root:
 pnpm mobile:dev
 pnpm --filter @template/mobile ios
 pnpm --filter @template/mobile android
-pnpm --filter @template/mobile web
 pnpm --filter @template/mobile lint
 ```
 
@@ -32,7 +31,7 @@ Template screens:
 Set `EXPO_PUBLIC_API_BASE_URL` when running against a device or emulator:
 
 ```bash
-# iOS simulator / web
+# iOS simulator
 EXPO_PUBLIC_API_BASE_URL=http://localhost:3000 pnpm --filter @template/mobile ios
 
 # Android emulator
