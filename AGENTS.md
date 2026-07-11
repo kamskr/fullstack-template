@@ -27,6 +27,7 @@ Build this repo as a reusable full-stack template: NestJS API, Expo mobile app, 
 
 ## Read Before Work
 
+- Documentation-system reset: `prompts/documentation-system-reset.md`.
 - Monorepo or tooling: `docs/shared/monorepo.md` and `agents/`.
 - Creating a new project from the template: `docs/shared/template-checklist.md`.
 - API/backend: `apps/api/AGENTS.md`, `docs/backend/`, and `apps/api/agents/`.
