@@ -19,8 +19,9 @@ apps/web              TanStack Start app
 packages/api-client   generated TypeScript API client
 packages/validators   shared Zod schemas for form/API input shapes
 bruno/                API request workspace
-docs/                 architecture and workflow docs
-agents/               notes for future agents
+docs/                 canonical architecture and workflow docs
+.agents/skills/       repository-local workflow skills
+scripts/docs/         docs tooling (docs:list, docs:check)
 ```
 
 ## First Setup
@@ -109,7 +110,12 @@ Timestamp rows are scoped to the current Better Auth user. The API response expo
 pnpm lint
 pnpm build
 pnpm test
+pnpm docs:check       # docs frontmatter + local Markdown links
+pnpm docs:test        # docs tooling tests
+pnpm contract:check   # regenerates the API contract and fails on diff
 ```
+
+CI (`.github/workflows/checks.yml`) runs the docs checks and the contract freshness check.
 
 API e2e checks need local PostgreSQL and migrations:
 

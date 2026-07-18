@@ -1,3 +1,10 @@
+---
+summary: Checklist of every rename and regeneration step when turning the template into a named project.
+read_when:
+  - Creating a new project from this template.
+  - Renaming packages, app metadata, database defaults, or the Bruno workspace.
+---
+
 # Template Usage Checklist
 
 Use this when turning the template into a real project.
@@ -17,7 +24,6 @@ Use this when turning the template into a real project.
 - Root scripts and docs that reference package filters:
   - `package.json`
   - `AGENTS.md`
-  - `agents/*.md`
   - `docs/**/*.md`
 
 ## Rename Mobile App Metadata
@@ -75,7 +81,7 @@ If local port `5432` is occupied, use `POSTGRES_PORT=5433` and update `DATABASE_
 - Optional collection directory name: `bruno/collections/template-api/`
 - Local environment values: `bruno/collections/template-api/environments/Local.bru`
 
-If you rename the collection directory, also update `bruno/workspace.yml` and `agents/bruno.md`.
+If you rename the collection directory, also update `bruno/workspace.yml` and `docs/shared/bruno.md`.
 
 ## Add Project Domain
 
@@ -111,4 +117,6 @@ pnpm lint
 pnpm build
 pnpm test
 pnpm api-contract:generate
+pnpm docs:check
+pnpm docs:test
 ```

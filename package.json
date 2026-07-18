@@ -16,7 +16,11 @@
     "api-client:generate": "pnpm --filter @template/api-client generate",
     "api-contract:generate": "pnpm api:openapi && pnpm api-client:generate",
     "mobile:dev": "pnpm --filter @template/mobile start",
-    "web:dev": "pnpm --filter @template/web dev"
+    "web:dev": "pnpm --filter @template/web dev",
+    "docs:list": "node scripts/docs/list.mjs",
+    "docs:check": "node scripts/docs/check.mjs",
+    "docs:test": "node --test 'scripts/docs/*.test.mjs'",
+    "contract:check": "pnpm api-contract:generate && git diff --exit-code -- apps/api/docs/openapi.json packages/api-client/src/generated"
   },
   "devDependencies": {
     "turbo": "^2.6.3"

@@ -1,3 +1,10 @@
+---
+summary: Expo app architecture - routing, state, auth cookies via SecureStore, and API reachability config.
+read_when:
+  - Changing mobile routing, state management, auth, or API access.
+  - Running the mobile app against emulators or physical devices.
+---
+
 # Mobile Architecture
 
 Expo app for React Native mobile clients.

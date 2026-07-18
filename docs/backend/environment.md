@@ -1,4 +1,11 @@
-# Environment Notes
+---
+summary: APP_ENV/NODE_ENV split, env file loading order, and the start script matrix.
+read_when:
+  - Adding or changing environment variables or env files.
+  - Choosing the right start script for an environment.
+---
+
+# Backend Environment
 
 Use two environment variables:
 

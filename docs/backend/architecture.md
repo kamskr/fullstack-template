@@ -1,3 +1,10 @@
+---
+summary: API architecture principles - NestJS modules, Drizzle, Better Auth baseline, and the timestamps example pattern.
+read_when:
+  - Changing backend behavior, infrastructure, auth, database, or contract generation.
+  - Adding a new domain feature to the API.
+---
+
 # Backend Architecture
 
 The API app uses NestJS, PostgreSQL, Drizzle ORM, Better Auth, and OpenAPI.

@@ -1,3 +1,10 @@
+---
+summary: API local development workflow - setup order, daily commands, local URLs, and the timestamps example feature map.
+read_when:
+  - Setting up or running the API locally.
+  - Looking for the right command for database, contract, or test work.
+---
+
 # Backend Development
 
 From the repo root:
@@ -9,7 +16,7 @@ pnpm --filter @template/api db:migrate
 pnpm api:dev
 ```
 
-Docker and migrations are separate from `pnpm dev`. Start local services explicitly before running app dev servers.
+Docker and migrations are separate from `pnpm dev`. Start local services explicitly before running app dev servers. See `database.md` for the database and migration workflow.
 
 Useful commands:
 
@@ -29,7 +36,7 @@ Local docs:
 - Swagger UI: `http://localhost:3000/api`
 - OpenAPI JSON: `http://localhost:3000/api-json`
 
-Bruno API requests live at the repo root in `bruno/`.
+Bruno API requests live at the repo root in `bruno/`; see `../shared/bruno.md`.
 
 ## Example Feature
 
@@ -50,18 +57,3 @@ pnpm api-contract:generate
 ```
 
 Generated client output lives in `packages/api-client/src/generated/`.
-
-## PostgreSQL Port Conflicts
-
-Docker Compose maps PostgreSQL to host port `5432` by default. If another local database already uses that port, set a different host port in `apps/api/.env.local`:
-
-```env
-POSTGRES_PORT=5433
-DATABASE_URL=postgres://app_template:app_template@localhost:5433/app_template
-```
-
-Then start Docker Compose from the repo root:
-
-```bash
-pnpm --filter @template/api docker:up
-```

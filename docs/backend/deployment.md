@@ -1,4 +1,11 @@
-# Deployment Notes
+---
+summary: Provider-neutral deployment assumptions with a concrete Render Web Service + PostgreSQL runbook.
+read_when:
+  - Deploying the API to staging or production.
+  - Changing build/start commands, runtime dependencies, or deployment env vars.
+---
+
+# Backend Deployment
 
 Deployment targets are project-specific. Render works well for a simple NestJS API + managed PostgreSQL setup, but the template should stay local-first and provider-neutral.
 

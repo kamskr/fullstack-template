@@ -44,7 +44,7 @@ pnpm api:openapi
 
 ## Database
 
-The template baseline contains only Better Auth tables. Add project-domain schema under `src/database/schema/`, export it from `src/database/schema/index.ts`, then generate a new Drizzle migration.
+The template baseline contains Better Auth tables plus the authenticated `timestamps` example feature. Add project-domain schema under `src/database/schema/`, export it from `src/database/schema/index.ts`, then generate a new Drizzle migration.
 
 Local PostgreSQL defaults:
 
@@ -64,5 +64,7 @@ Required env keys are documented in `.env.example`.
 
 - Backend architecture: `../../docs/backend/architecture.md`
 - Backend development: `../../docs/backend/development.md`
-- Migration workflow: `../../docs/backend/migrations.md`
-- Agent notes: `agents/`
+- Database and migrations: `../../docs/backend/database.md`
+- Auth: `../../docs/backend/auth.md`
+- OpenAPI conventions: `../../docs/backend/openapi.md`
+- Agent instructions: `AGENTS.md`

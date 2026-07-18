@@ -1,4 +1,12 @@
-# Auth Notes
+---
+summary: Better Auth integration - routes, anonymous login, route policy, env keys, schema regeneration, and body parsing.
+read_when:
+  - Changing auth config, plugins, or protected/public route policy.
+  - Debugging auth cookies, CSRF/origin errors, or request body parsing.
+  - Regenerating the Better Auth Drizzle schema.
+---
+
+# Backend Auth
 
 ## Better Auth
 
@@ -87,3 +95,9 @@ pnpm --filter @template/api db:migrate
 ```
 
 Use Drizzle migrations for durable schema changes; do not run Better Auth direct migrations against the app database.
+
+## Body Parsing
+
+Better Auth needs Nest booted with `bodyParser: false` so `/api/auth/*` can handle request bodies itself.
+
+App JSON endpoints still need parsed bodies. Use `setupJsonBodyParsing(app)` from `src/body-parsing.ts` after creating the Nest app and before `app.init()`/`app.listen()`. It skips `/api/auth/*` and applies `express.json()` to the rest of the app.

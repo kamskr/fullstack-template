@@ -1,3 +1,10 @@
+---
+summary: TanStack Start app architecture - routing, query usage, Better Auth cookies, and API URL config.
+read_when:
+  - Changing web routing, data loading, auth, or API access.
+  - Configuring the web app's API base URL.
+---
+
 # Web Architecture
 
 TanStack Start app for web clients.

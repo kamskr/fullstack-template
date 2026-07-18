@@ -1,0 +1,32 @@
+name: checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Docs frontmatter and link check
+        run: node scripts/docs/check.mjs
+      - name: Docs tooling tests
+        run: node --test 'scripts/docs/*.test.mjs'
+
+  contract-freshness:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Regenerate contract and fail on diff
+        run: pnpm contract:check

@@ -1,4 +1,11 @@
-# Bruno Notes
+---
+summary: Bruno API request workspace layout, local environment, and the manual smoke-test flow.
+read_when:
+  - Adding or changing API endpoints (Bruno requests must be updated in the same change).
+  - Manually smoke-testing the API locally.
+---
+
+# Bruno
 
 The Bruno workspace lives at the repo root in `bruno/`.
 

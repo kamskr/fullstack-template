@@ -1,4 +1,11 @@
-# OpenAPI And Health Notes
+---
+summary: OpenAPI/Swagger routes, controller and model conventions, endpoint checklist, and the health endpoint contract.
+read_when:
+  - Adding or changing an API endpoint, request/response model, or Swagger setup.
+  - Regenerating or consuming the checked-in OpenAPI schema.
+---
+
+# OpenAPI And Health
 
 ## Routes
 
@@ -6,7 +13,7 @@
 - OpenAPI JSON: `/api-json`
 - Health: `/health`
 - Timestamps: `/timestamps`
-- Checked-in schema: `docs/openapi.json`
+- Checked-in schema: `apps/api/docs/openapi.json`
 
 `/docs` is intentionally unused so it remains available for product/API documentation if needed later.
 
@@ -20,7 +27,7 @@ The source-controlled schema is generated with:
 pnpm api:openapi
 ```
 
-Commit `docs/openapi.json` and regenerated `../../../packages/api-client/src/generated/` files whenever endpoint/DTO changes alter the generated contract.
+Commit `apps/api/docs/openapi.json` and regenerated `packages/api-client/src/generated/` files whenever endpoint/DTO changes alter the generated contract. CI runs `pnpm contract:check` to catch stale contracts.
 
 ## Controller And Model Conventions
 
@@ -43,11 +50,11 @@ When adding or changing an endpoint:
 4. Add `@ApiTags()` on the controller.
 5. Add route-level Swagger decorators for success and expected error responses.
 6. Add or update e2e tests.
-7. Add or update matching Bruno requests under `../../../bruno/collections/template-api/` for local manual testing.
+7. Add or update matching Bruno requests under `bruno/collections/template-api/` for local manual testing.
 8. Run `pnpm api-contract:generate`.
-9. Check `docs/openapi.json`, `packages/api-client/src/generated/`, or `/api-json` and confirm the schema includes the route and DTO models needed by client apps.
+9. Check `apps/api/docs/openapi.json`, `packages/api-client/src/generated/`, or `/api-json` and confirm the schema includes the route and DTO models needed by client apps.
 
-Client apps should generate models/clients from `docs/openapi.json` in source control, or from the runtime OpenAPI JSON route (`/api-json`) during local experiments.
+Client apps should generate models/clients from `apps/api/docs/openapi.json` in source control, or from the runtime OpenAPI JSON route (`/api-json`) during local experiments.
 
 The `timestamps` feature is the template reference for generated client usage. It exposes only API models (`TimestampModel`, `CreateTimestampModel`, `UpdateTimestampModel`) and does not expose internal `user_id` persistence fields.
 
