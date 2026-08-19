@@ -1,5 +1,7 @@
-import 'dotenv/config';
 import { defineConfig } from 'drizzle-kit';
+import { loadEnvFiles } from './src/config/load-env-files';
+
+loadEnvFiles();
 
 const defaultDatabaseUrl =
   'postgres://app_template:app_template@localhost:5432/app_template';

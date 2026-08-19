@@ -21,7 +21,7 @@ packages/validators   shared Zod schemas for form/API input shapes
 bruno/                API request workspace
 docs/                 canonical architecture and workflow docs
 .agents/skills/       repository-local workflow skills
-scripts/docs/         docs tooling (docs:list, docs:check)
+scripts/              docs tooling (docs:list, docs:check) and contract freshness check
 ```
 
 ## First Setup
@@ -112,7 +112,7 @@ pnpm build
 pnpm test
 pnpm docs:check       # docs frontmatter + local Markdown links
 pnpm docs:test        # docs tooling tests
-pnpm contract:check   # regenerates the API contract and fails on diff
+pnpm contract:check   # regenerates the API contract and fails on diff or untracked files
 ```
 
 CI (`.github/workflows/checks.yml`) runs the docs checks and the contract freshness check.

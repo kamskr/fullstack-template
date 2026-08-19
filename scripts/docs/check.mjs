@@ -3,7 +3,7 @@ import { dirname, resolve } from 'node:path';
 import { checkDocs } from './lib.mjs';
 
 const rootDir = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-const { errors, fileCount, canonicalCount, linkCount } = checkDocs(rootDir);
+const { errors, fileCount, canonicalCount, linkCount } = await checkDocs(rootDir);
 
 if (errors.length > 0) {
   for (const error of errors) console.error(`ERROR ${error}`);

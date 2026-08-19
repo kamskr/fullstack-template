@@ -1,0 +1,4 @@
+interface:
+  display_name: "Docs Impact"
+  short_description: "Keep canonical docs aligned with code"
+  default_prompt: "Use $docs-impact to assess and update documentation for this change."

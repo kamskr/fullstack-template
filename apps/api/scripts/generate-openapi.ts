@@ -6,6 +6,7 @@ import { createOpenApiDocument } from '../src/openapi';
 
 async function generateOpenApi(): Promise<void> {
   const app = await NestFactory.create(AppModule, {
+    abortOnError: false,
     bodyParser: false,
     logger: false,
   });
@@ -19,4 +20,7 @@ async function generateOpenApi(): Promise<void> {
   await app.close();
 }
 
-void generateOpenApi();
+void generateOpenApi().catch((error: unknown) => {
+  console.error(error);
+  process.exitCode = 1;
+});

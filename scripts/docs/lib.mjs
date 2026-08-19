@@ -1,8 +1,13 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
-import { dirname, join, relative, resolve, sep } from 'node:path';
+import { join, relative, sep } from 'node:path';
+import {
+  findMarkdownLinkTargets,
+  parseFrontMatter,
+  validateLinkTarget,
+} from './markdown.mjs';
 
 // Directories whose Markdown files carry required summary/read_when frontmatter.
-export const CANONICAL_DIRS = ['docs', 'prompts'];
+export const CANONICAL_DIRS = ['docs'];
 
 // Never descend into these directories anywhere in the tree.
 export const IGNORED_DIR_NAMES = new Set([
@@ -31,54 +36,14 @@ export function collectMarkdownFiles(rootDir) {
   return files.sort();
 }
 
-// Minimal flat YAML frontmatter parser: string values and string lists only.
-export function parseFrontmatter(content) {
-  const match = /^---\r?\n([\s\S]*?)\r?\n---(\r?\n|$)/.exec(content);
-  if (!match) return null;
-  const data = {};
-  let currentKey = null;
-  for (const line of match[1].split(/\r?\n/)) {
-    if (!line.trim() || line.trim().startsWith('#')) continue;
-    const keyMatch = /^([A-Za-z_][\w-]*):\s*(.*)$/.exec(line);
-    if (keyMatch) {
-      currentKey = keyMatch[1];
-      const value = keyMatch[2].trim();
-      data[currentKey] = value === '' ? [] : value;
-      continue;
-    }
-    const itemMatch = /^\s+-\s+(.*)$/.exec(line);
-    if (itemMatch && currentKey && Array.isArray(data[currentKey])) {
-      data[currentKey].push(itemMatch[1].trim());
-    }
-  }
-  return data;
-}
-
-function stripCode(content) {
-  return content
-    .replace(/```[\s\S]*?```/g, '')
-    .replace(/`[^`\n]*`/g, '');
-}
-
-// Inline Markdown links/images pointing at local paths (not URLs or anchors).
-export function extractLocalLinks(content) {
-  const links = [];
-  const pattern = /!?\[[^\]]*\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g;
-  for (const match of stripCode(content).matchAll(pattern)) {
-    const target = match[1];
-    if (/^[a-z][a-z+.-]*:/i.test(target)) continue; // http:, https:, mailto:, ...
-    if (target.startsWith('#') || target.startsWith('//')) continue;
-    links.push(target);
-  }
-  return links;
-}
-
 export function isCanonical(rootDir, filePath) {
   const rel = relative(rootDir, filePath);
   return CANONICAL_DIRS.some((dir) => rel === dir || rel.startsWith(dir + sep));
 }
 
-export function checkDocs(rootDir) {
+// Every Markdown file in the repo gets its local links checked; only canonical
+// docs must carry frontmatter. Errors are reported as `path[:line]: message`.
+export async function checkDocs(rootDir) {
   const errors = [];
   const files = collectMarkdownFiles(rootDir);
   let canonicalCount = 0;
@@ -90,30 +55,19 @@ export function checkDocs(rootDir) {
 
     if (isCanonical(rootDir, filePath)) {
       canonicalCount += 1;
-      const frontmatter = parseFrontmatter(content);
-      if (!frontmatter) {
-        errors.push(`${rel}: missing YAML frontmatter`);
-      } else {
-        if (typeof frontmatter.summary !== 'string' || !frontmatter.summary.trim()) {
-          errors.push(`${rel}: frontmatter needs a non-empty "summary"`);
-        }
-        const readWhen = frontmatter.read_when;
-        if (!Array.isArray(readWhen) || readWhen.filter((item) => item.trim()).length === 0) {
-          errors.push(`${rel}: frontmatter needs a non-empty "read_when" list`);
-        }
+      for (const error of parseFrontMatter(content).errors) {
+        errors.push(`${rel}: ${error}`);
       }
     }
 
-    for (const link of extractLocalLinks(content)) {
+    for (const link of findMarkdownLinkTargets(content)) {
       linkCount += 1;
-      const target = link.split('#')[0];
-      if (!target) continue;
-      const resolved = target.startsWith('/')
-        ? join(rootDir, target)
-        : resolve(dirname(filePath), target);
-      if (!existsSync(resolved)) {
-        errors.push(`${rel}: broken local link "${link}"`);
-      }
+      const error = await validateLinkTarget({
+        documentPath: filePath,
+        repoRoot: rootDir,
+        target: link.target,
+      });
+      if (error) errors.push(`${rel}:${link.line}: ${error}`);
     }
   }
 
@@ -126,13 +80,10 @@ export function listCanonicalDocs(rootDir) {
     const base = join(rootDir, dir);
     if (!existsSync(base)) continue;
     for (const filePath of collectMarkdownFiles(base)) {
-      const frontmatter = parseFrontmatter(readFileSync(filePath, 'utf8'));
+      const { summary, errors } = parseFrontMatter(readFileSync(filePath, 'utf8'));
       docs.push({
         path: relative(rootDir, filePath),
-        summary:
-          frontmatter && typeof frontmatter.summary === 'string'
-            ? frontmatter.summary
-            : '(missing frontmatter)',
+        summary: summary ?? `(${errors.join('; ')})`,
       });
     }
   }
