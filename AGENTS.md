@@ -21,6 +21,10 @@ Build this repo as a reusable full-stack template: NestJS API, Expo mobile app, 
 
 - Use pnpm workspaces from the repo root; the repo is pinned via the root `packageManager` field.
 - Use Turborepo for cross-package scripts.
+- Use Conventional Commits for commit messages.
+- Use Conventional-style branch names such as `feat/show-build-number` or
+  `fix/settings-scroll`; never prefix branches with an agent or tool name such
+  as `agent/`, `claude/`, `codex/`, or similar.
 - Keep app `.gitignore` files app-local unless a rule is truly repo-wide.
 - Share contracts and validation schemas, not implementation.
 - Backend is the source of truth for API behavior.
@@ -38,7 +42,6 @@ Start from the docs index: `docs/README.md`.
 - Web: `apps/web/AGENTS.md` and `docs/web/`.
 - API contract and generated client: `docs/shared/api-contract.md`.
 - API requests: `docs/shared/bruno.md` and `bruno/`.
-- Documentation-system reset prompt: `prompts/documentation-system-reset.md`.
 
 ## Documentation Impact
 
@@ -60,7 +63,7 @@ pnpm lint
 pnpm test
 pnpm build
 pnpm api-contract:generate
-pnpm contract:check   # fails if committed contract artifacts are stale
+pnpm contract:check   # fails if committed contract artifacts are stale or untracked
 pnpm docs:list
 pnpm docs:check       # docs frontmatter + local Markdown links
 pnpm docs:test        # tests for the docs tooling

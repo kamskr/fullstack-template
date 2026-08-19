@@ -10,7 +10,7 @@
     "test": "turbo test",
     "format": "turbo format",
     "api:dev": "pnpm --filter @template/api start:local:dev",
-    "api:build": "pnpm --filter @template/api build",
+    "api:build": "turbo build --filter @template/api",
     "api:test": "pnpm --filter @template/api test",
     "api:openapi": "turbo openapi:generate --filter @template/api",
     "api-client:generate": "pnpm --filter @template/api-client generate",
@@ -20,7 +20,9 @@
     "docs:list": "node scripts/docs/list.mjs",
     "docs:check": "node scripts/docs/check.mjs",
     "docs:test": "node --test 'scripts/docs/*.test.mjs'",
-    "contract:check": "pnpm api-contract:generate && git diff --exit-code -- apps/api/docs/openapi.json packages/api-client/src/generated"
+    "contract:check": "node scripts/api-contract-check.mjs",
+    "ios": "pnpm --filter @template/mobile ios",
+    "android": "pnpm --filter @template/mobile android"
   },
   "devDependencies": {
     "turbo": "^2.6.3"

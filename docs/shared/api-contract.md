@@ -31,7 +31,7 @@ pnpm api-contract:generate
 
 This runs `pnpm api:openapi` (writes `apps/api/docs/openapi.json`), then `pnpm api-client:generate` (writes `packages/api-client/src/generated/`). Commit both outputs with the API change.
 
-CI verifies freshness: `pnpm contract:check` regenerates the contract and fails on any diff against the committed files.
+CI verifies freshness: `pnpm contract:check` (`scripts/api-contract-check.mjs`) regenerates the contract and fails on any diff against the committed files or on untracked generated files.
 
 The API client uses `@hey-api/openapi-ts` with the fetch client plugin. It must stay platform-neutral: generated types, SDK functions, and fetch client support only, plus a very thin optional helper layer. Do not share backend implementation code with frontend apps.
 

@@ -43,4 +43,6 @@ pnpm --filter @template/api start:production
 pnpm --filter @template/api start:production:dev
 ```
 
-`start:staging` and `start:production` use `node dist/src/main.js`; run `pnpm --filter @template/api build` first.
+`start:staging` and `start:production` use `node dist/src/main.js`; run `pnpm api:build` (Turbo, builds workspace dependencies first) beforehand.
+
+Under `APP_ENV=staging` or `production`, `DATABASE_URL`, `BETTER_AUTH_SECRET`, and `BETTER_AUTH_URL` are required and must differ from the local defaults; the schema in `src/config/env.validation.ts` rejects a hosted boot that would silently fall back to the committed development values. `drizzle.config.ts` loads env files through the same `loadEnvFiles()` helper, so `db:migrate` sees the same layering as the app.

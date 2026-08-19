@@ -35,9 +35,18 @@ function App() {
 
       <section className="mt-8 grid gap-4 md:grid-cols-3">
         {[
-          ['Better Auth', 'Email/password and anonymous sessions via package APIs.'],
-          ['Generated client', 'Hey API models and operations stay source-of-truth.'],
-          ['TanStack Query', 'List/detail cache invalidation around every mutation.'],
+          [
+            'Better Auth',
+            'Email/password and anonymous sessions via package APIs.',
+          ],
+          [
+            'Generated client',
+            'Hey API models and operations stay source-of-truth.',
+          ],
+          [
+            'TanStack Query',
+            'List/detail cache invalidation around every mutation.',
+          ],
         ].map(([title, desc], index) => (
           <article
             key={title}

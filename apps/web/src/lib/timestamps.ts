@@ -33,7 +33,10 @@ export async function getTimestamp(id: string): Promise<TimestampModel> {
 export async function createTimestamp(
   body: CreateTimestampModel,
 ): Promise<TimestampModel> {
-  const { data } = await timestampsControllerCreate({ body, throwOnError: true })
+  const { data } = await timestampsControllerCreate({
+    body,
+    throwOnError: true,
+  })
   return data
 }
 

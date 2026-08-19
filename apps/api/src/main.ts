@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
+import { DEFAULT_API_BASE_URL } from './config/api-defaults';
 import { setupJsonBodyParsing } from './body-parsing';
 import { setupOpenApi } from './openapi';
 
@@ -13,12 +14,13 @@ async function bootstrap() {
     .get<string>('BETTER_AUTH_TRUSTED_ORIGINS')
     ?.split(',')
     .map((origin) => origin.trim())
-    .filter(Boolean) ?? ['http://localhost:3000', 'http://localhost:3001'];
+    .filter(Boolean) ?? [DEFAULT_API_BASE_URL, 'http://localhost:3001'];
 
   app.enableCors({
     origin: trustedOrigins,
     credentials: true,
   });
+  app.enableShutdownHooks();
   setupJsonBodyParsing(app);
   setupOpenApi(app);
 

@@ -16,3 +16,7 @@ yarn-error.log*
 
 # OS junk
 .DS_Store
+
+# local agent state and pnpm store
+.claude/
+.pnpm-store/

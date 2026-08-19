@@ -17,7 +17,7 @@ Suggested staging names:
 ## Render Web Service
 
 - Runtime: Node
-- Build command from repo root: `pnpm install --frozen-lockfile && pnpm --filter @template/api build`
+- Build command from repo root: `pnpm install --frozen-lockfile && pnpm turbo build --filter @template/api`. Use Turbo, not a bare pnpm filter: the API imports `@template/validators`, whose `dist/` is gitignored, so on a clean checkout only the Turbo task (`dependsOn: ["^build"]`) builds the package first; `pnpm --filter @template/api build` fails during `nest build`.
 - Render Free staging start command: `pnpm --filter @template/api db:migrate && pnpm --filter @template/api start:staging`
 - Render Free production start command: `pnpm --filter @template/api db:migrate && pnpm --filter @template/api start:production`
 - Paid Render preferred setup: pre-deploy command `pnpm --filter @template/api db:migrate`, start command `pnpm --filter @template/api start:staging` for staging or `pnpm --filter @template/api start:production` for production

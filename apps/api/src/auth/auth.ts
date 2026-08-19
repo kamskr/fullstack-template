@@ -6,6 +6,7 @@ import { anonymous } from 'better-auth/plugins';
 import { eq } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
+import { DEFAULT_API_BASE_URL } from '../config/api-defaults';
 import { loadEnvFiles } from '../config/load-env-files';
 import * as schema from '../database/schema';
 
@@ -16,7 +17,7 @@ const defaultDatabaseUrl =
 const defaultBetterAuthSecret =
   'local-development-better-auth-secret-change-me-32';
 const defaultTrustedOrigins = [
-  'http://localhost:3000',
+  DEFAULT_API_BASE_URL,
   'http://localhost:3001',
   'templatemobile://',
   'templatemobile://*',
@@ -38,7 +39,7 @@ export const authDb = drizzle(authSql, { schema });
 
 export const auth: Auth<any> = betterAuth({
   appName: 'Full Stack Template',
-  baseURL: process.env.BETTER_AUTH_URL ?? 'http://localhost:3000',
+  baseURL: process.env.BETTER_AUTH_URL ?? DEFAULT_API_BASE_URL,
   secret: process.env.BETTER_AUTH_SECRET ?? defaultBetterAuthSecret,
   database: drizzleAdapter(authDb, {
     provider: 'pg',
