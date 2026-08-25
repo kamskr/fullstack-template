@@ -2,4 +2,4 @@
 
 Shared Zod schemas for client and API boundary validation.
 
-Keep schemas here when they are intentionally shared across web, mobile, and API. Do not add broad shared business logic.
+Put a schema here only when web, mobile, and the API all use it. Do not add business logic.

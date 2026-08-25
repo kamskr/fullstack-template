@@ -42,4 +42,4 @@ EXPO_PUBLIC_API_BASE_URL=http://10.0.2.2:3000 pnpm --filter @template/mobile and
 EXPO_PUBLIC_API_BASE_URL=http://192.168.x.x:3000 pnpm --filter @template/mobile start
 ```
 
-See `../../docs/mobile/architecture.md` for durable mobile notes.
+See `../../docs/mobile/architecture.md` for the mobile architecture notes.

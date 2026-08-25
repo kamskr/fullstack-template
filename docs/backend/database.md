@@ -6,7 +6,7 @@ read_when:
   - Running DB-backed e2e tests.
 ---
 
-# Backend Database
+# Backend database
 
 ## Local PostgreSQL
 
@@ -22,9 +22,9 @@ Default connection URL:
 postgres://app_template:app_template@localhost:5432/app_template
 ```
 
-These values are mirrored in `.env.example`, `docker-compose.yml`, and `drizzle.config.ts`.
+The same values appear in `.env.example`, `docker-compose.yml`, and `drizzle.config.ts`.
 
-If Docker reports `Bind for 0.0.0.0:5432 failed: port is already allocated`, another local PostgreSQL is already using the default port. Inspect with:
+If Docker reports `Bind for 0.0.0.0:5432 failed: port is already allocated`, another local PostgreSQL already owns the default port. Inspect with:
 
 ```bash
 docker ps --format 'table {{.Names}}\t{{.Ports}}\t{{.Status}}'
@@ -45,7 +45,7 @@ DATABASE_URL=postgres://app_template:app_template@localhost:5433/app_template
 - Generated migrations: `drizzle/`
 - Nest adapter: `src/database/database.service.ts`
 
-Useful commands:
+Commands:
 
 ```bash
 pnpm --filter @template/api db:generate
@@ -54,7 +54,7 @@ pnpm --filter @template/api db:push
 pnpm --filter @template/api db:studio
 ```
 
-Use `db:generate` + `db:migrate` for durable schema changes. `db:push` is only for early local prototyping.
+Use `db:generate` + `db:migrate` for real schema changes. `db:push` is only for early local prototyping.
 
 ## Migrations
 
@@ -68,25 +68,25 @@ apps/api/drizzle/0001_add_timestamps.sql
 apps/api/drizzle/meta/
 ```
 
-The baseline schema contains Better Auth tables and the tiny authenticated `timestamps` example feature.
+The baseline schema contains the Better Auth tables and the small authenticated `timestamps` example feature.
 
 When adding project-specific schema:
 
 1. Add or update files under `apps/api/src/database/schema/`.
 2. Export them from `schema/index.ts`.
 3. Run `pnpm --filter @template/api db:generate`.
-4. Inspect generated SQL.
+4. Inspect the generated SQL.
 5. Run `pnpm --filter @template/api db:migrate` against a fresh local database.
 
-## NestJS Integration
+## NestJS integration
 
-Use `DatabaseService` through dependency injection instead of importing a global client. This keeps tests and future app modules aligned with Nest conventions.
+Inject `DatabaseService` instead of importing a global client. That keeps it replaceable in tests.
 
 Scope user-owned rows by `user_id`, map Drizzle rows to API models, and generate migrations from the current baseline.
 
-## DB-backed E2E Tests
+## DB-backed e2e tests
 
-E2E tests expect local PostgreSQL to be running and migrations applied:
+E2E tests expect local PostgreSQL to be running with migrations applied:
 
 ```bash
 pnpm --filter @template/api docker:up

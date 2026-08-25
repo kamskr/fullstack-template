@@ -5,14 +5,14 @@ read_when:
   - Deciding how a service should run in local development.
 ---
 
-# Local-first Development
+# Local-first development
 
 Normal development must not require production cloud services.
 
 Every new infrastructure dependency needs one of:
 
-- local Docker service,
-- documented emulator/mock,
-- adapter boundary that lets the app run without production credentials.
+- a local Docker service,
+- a documented emulator or mock,
+- an adapter boundary that lets the app run without production credentials.
 
 Production services are deployment targets, not local development requirements.

@@ -5,19 +5,19 @@ read_when:
   - Changing build/start commands, runtime dependencies, or deployment env vars.
 ---
 
-# Backend Deployment
+# Backend deployment
 
-Deployment targets are project-specific. Render works well for a simple NestJS API + managed PostgreSQL setup, but the template should stay local-first and provider-neutral.
+Deployment targets are project-specific. This doc uses Render as the worked example because a NestJS API plus managed PostgreSQL fits it with little setup. The template itself assumes no provider and stays local-first.
 
 Suggested staging names:
 
 - Web Service: `<project>-api-staging`
 - PostgreSQL: `<project>-db-staging`
 
-## Render Web Service
+## Render web service
 
 - Runtime: Node
-- Build command from repo root: `pnpm install --frozen-lockfile && pnpm turbo build --filter @template/api`. Use Turbo, not a bare pnpm filter: the API imports `@template/validators`, whose `dist/` is gitignored, so on a clean checkout only the Turbo task (`dependsOn: ["^build"]`) builds the package first; `pnpm --filter @template/api build` fails during `nest build`.
+- Build command from repo root: `pnpm install --frozen-lockfile && pnpm turbo build --filter @template/api`. Use Turbo, not a bare pnpm filter. The API imports `@template/validators`, whose `dist/` is gitignored, so on a clean checkout only the Turbo task (`dependsOn: ["^build"]`) builds that package first. `pnpm --filter @template/api build` fails during `nest build`.
 - Render Free staging start command: `pnpm --filter @template/api db:migrate && pnpm --filter @template/api start:staging`
 - Render Free production start command: `pnpm --filter @template/api db:migrate && pnpm --filter @template/api start:production`
 - Paid Render preferred setup: pre-deploy command `pnpm --filter @template/api db:migrate`, start command `pnpm --filter @template/api start:staging` for staging or `pnpm --filter @template/api start:production` for production
@@ -31,7 +31,7 @@ If deploying only the API app from this monorepo, set the service root directory
 
 ## Render PostgreSQL
 
-Use the Render Postgres **Internal Database URL** as `DATABASE_URL` for the web service when the database and service are in the same Render region/account.
+Use the Render Postgres "Internal Database URL" as `DATABASE_URL` for the web service when the database and service are in the same Render region and account.
 
 Required staging env vars:
 
@@ -45,7 +45,7 @@ BETTER_AUTH_URL=https://<render-service>.onrender.com
 BETTER_AUTH_TRUSTED_ORIGINS=https://<render-service>.onrender.com
 ```
 
-Use `APP_ENV=production` only for a separate production web service/database.
+Use `APP_ENV=production` only for a separate production web service and database.
 
 Generate `BETTER_AUTH_SECRET` with `openssl rand -base64 32`.
 

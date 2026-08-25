@@ -1,11 +1,11 @@
 ---
-summary: API local development workflow - setup order, daily commands, local URLs, and the timestamps example feature map.
+summary: API local setup order, daily commands, local URLs, and the timestamps example file map.
 read_when:
   - Setting up or running the API locally.
   - Looking for the right command for database, contract, or test work.
 ---
 
-# Backend Development
+# Backend development
 
 From the repo root:
 
@@ -16,9 +16,9 @@ pnpm --filter @template/api db:migrate
 pnpm api:dev
 ```
 
-Docker and migrations are separate from `pnpm dev`. Start local services explicitly before running app dev servers. See `database.md` for the database and migration workflow.
+Docker and migrations are separate from `pnpm dev`. Start local services before running app dev servers. See `database.md` for the database and migration workflow.
 
-Useful commands:
+Commands:
 
 ```bash
 pnpm --filter @template/api db:generate
@@ -38,9 +38,9 @@ Local docs:
 
 Bruno API requests live at the repo root in `bruno/`; see `../shared/bruno.md`.
 
-## Example Feature
+## Example feature
 
-Authenticated timestamp CRUD is available under `/timestamps`. Use it as the reference for adding a domain feature:
+`/timestamps` is authenticated timestamp CRUD. Use it as the reference when adding a domain feature:
 
 - schema: `src/database/schema/timestamps.ts`
 - Nest module: `src/timestamps/`
@@ -48,7 +48,7 @@ Authenticated timestamp CRUD is available under `/timestamps`. Use it as the ref
 - Bruno requests: `bruno/collections/template-api/Timestamps/`
 - generated client: `packages/api-client/src/generated/`
 
-## API Client
+## API client
 
 Generate OpenAPI and the shared TypeScript API client:
 
@@ -56,4 +56,4 @@ Generate OpenAPI and the shared TypeScript API client:
 pnpm api-contract:generate
 ```
 
-Generated client output lives in `packages/api-client/src/generated/`.
+The generated client lands in `packages/api-client/src/generated/`.

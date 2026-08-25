@@ -19,7 +19,7 @@ Use the committed `Local` environment for local development:
 
 Keep `baseUrl` pointed at the API on port `3000`. The web dev server uses port `3001`.
 
-Suggested manual flow:
+Manual flow:
 
 1. `Auth/OK`
 2. `Auth/Sign Up Email`
@@ -34,10 +34,10 @@ Suggested manual flow:
 11. `Health`
 12. `OpenAPI/OpenAPI JSON`
 
-Bruno should keep Better Auth cookies in its cookie jar after sign-up or sign-in. If `Sign Up Email` returns an existing-user error, change `authEmail` in the active environment or use `Sign In Email`.
+Bruno keeps Better Auth cookies in its cookie jar after sign-up or sign-in. If `Sign Up Email` returns an existing-user error, change `authEmail` in the active environment or use `Sign In Email`.
 
 Better Auth state-changing endpoints require an `Origin` header for CSRF/origin checks. Keep `origin: {{baseUrl}}` on auth POST requests in Bruno.
 
-Whenever adding or changing API endpoints, update the Bruno collection in the same change so the route can be tested manually. Add request bodies, useful headers, and environment variables needed for local smoke testing.
+When you add or change an API endpoint, update the Bruno collection in the same change so the route can be tested by hand. Add the request body, any headers it needs, and any new environment variables.
 
 Do not commit personal Bruno environment files or production tokens.

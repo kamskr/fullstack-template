@@ -1,11 +1,11 @@
 ---
-summary: Expo app architecture - routing, state, auth cookies via SecureStore, and API reachability config.
+summary: Expo app routing, state, auth cookies via SecureStore, and API reachability config.
 read_when:
   - Changing mobile routing, state management, auth, or API access.
   - Running the mobile app against emulators or physical devices.
 ---
 
-# Mobile Architecture
+# Mobile architecture
 
 Expo app for React Native mobile clients.
 
@@ -15,4 +15,4 @@ Do not copy API data into Zustand. Use the generated API client from `packages/a
 
 The baseline mobile template includes Better Auth screens for email/password login, anonymous login, account creation, and authenticated timestamp CRUD. Timestamp creation uses the current client time; edit screens update the note only. Better Auth uses the Expo client plugin with SecureStore-backed cookie storage.
 
-Native API requests do not rely on browser cookie behavior. The generated Hey API client is configured app-locally to read `authClient.getCookie()` and attach a `Cookie` header. Configure API reachability with `EXPO_PUBLIC_API_BASE_URL` for Android emulators and physical devices.
+React Native has no browser cookie jar, so `src/lib/api-client.ts` reads `authClient.getCookie()` and attaches it as a `Cookie` header on every API request. Set `EXPO_PUBLIC_API_BASE_URL` so Android emulators and physical devices can reach the API.

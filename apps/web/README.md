@@ -35,4 +35,4 @@ Template screens:
 
 Set `VITE_API_BASE_URL` to override the API URL. Default: `http://localhost:3000`.
 
-See `../../docs/web/architecture.md` for durable web notes.
+See `../../docs/web/architecture.md` for the web architecture notes.

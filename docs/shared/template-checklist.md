@@ -5,11 +5,11 @@ read_when:
   - Renaming packages, app metadata, database defaults, or the Bruno workspace.
 ---
 
-# Template Usage Checklist
+# Template usage checklist
 
 Use this when turning the template into a real project.
 
-## Rename Project Identifiers
+## Rename project identifiers
 
 - Root package: `package.json`
   - `name`
@@ -26,7 +26,7 @@ Use this when turning the template into a real project.
   - `AGENTS.md`
   - `docs/**/*.md`
 
-## Rename Mobile App Metadata
+## Rename mobile app metadata
 
 - Expo app config: `apps/mobile/app.json`
   - `expo.name`
@@ -36,7 +36,7 @@ Use this when turning the template into a real project.
   - `apps/mobile/README.md`
   - `docs/mobile/architecture.md`
 
-## Rename API Metadata
+## Rename API metadata
 
 - OpenAPI metadata: `apps/api/src/openapi.ts`
   - API title
@@ -54,7 +54,7 @@ After changing API metadata, regenerate the contract:
 pnpm api-contract:generate
 ```
 
-## Rename Database Defaults
+## Rename database defaults
 
 - API env template: `apps/api/.env.example`
   - `POSTGRES_PORT`
@@ -74,7 +74,7 @@ pnpm api-contract:generate
 
 If local port `5432` is occupied, use `POSTGRES_PORT=5433` and update `DATABASE_URL` to use `5433`.
 
-## Rename Bruno Workspace
+## Rename Bruno workspace
 
 - Workspace metadata: `bruno/workspace.yml`
 - Collection metadata: `bruno/collections/template-api/bruno.json`
@@ -83,7 +83,7 @@ If local port `5432` is occupied, use `POSTGRES_PORT=5433` and update `DATABASE_
 
 If you rename the collection directory, also update `bruno/workspace.yml` and `docs/shared/bruno.md`.
 
-## Add Project Domain
+## Add project domain
 
 - Use the existing authenticated `timestamps` feature as the example pattern.
 - Add domain schema files under `apps/api/src/database/schema/`.
@@ -96,7 +96,7 @@ If you rename the collection directory, also update `bruno/workspace.yml` and `d
 pnpm --filter @template/api db:generate
 ```
 
-## Regenerate Contracts
+## Regenerate contracts
 
 After API changes:
 
@@ -109,7 +109,7 @@ This updates:
 - `apps/api/docs/openapi.json`
 - `packages/api-client/src/generated/`
 
-## Verify Template Health
+## Verify template health
 
 ```bash
 pnpm install
