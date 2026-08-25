@@ -5,7 +5,7 @@ read_when:
   - Regenerating or consuming the checked-in OpenAPI schema.
 ---
 
-# OpenAPI And Health
+# OpenAPI and health
 
 ## Routes
 
@@ -15,32 +15,32 @@ read_when:
 - Timestamps: `/timestamps`
 - Checked-in schema: `apps/api/docs/openapi.json`
 
-`/docs` is intentionally unused so it remains available for product/API documentation if needed later.
+`/docs` is unused and reserved for product or API documentation later.
 
 ## Setup
 
-OpenAPI setup lives in `src/openapi.ts` and is called from `src/main.ts`. E2E tests should call the same helper before `app.init()` when asserting Swagger routes.
+OpenAPI setup lives in `src/openapi.ts` and `src/main.ts` calls it. E2E tests should call the same helper before `app.init()` when asserting Swagger routes.
 
-The source-controlled schema is generated with:
+Generate the committed schema with:
 
 ```bash
 pnpm api:openapi
 ```
 
-Commit `apps/api/docs/openapi.json` and regenerated `packages/api-client/src/generated/` files whenever endpoint/DTO changes alter the generated contract. CI runs `pnpm contract:check` to catch stale contracts.
+Commit `apps/api/docs/openapi.json` and the regenerated `packages/api-client/src/generated/` files whenever an endpoint or DTO change alters the generated contract. CI runs `pnpm contract:check` to catch stale contracts.
 
-## Controller And Model Conventions
+## Controller and model conventions
 
 - Use model classes from `src/models/` for every request body and response body that should appear in OpenAPI.
 - Decorate model properties with `@ApiProperty()` or `@ApiPropertyOptional()` so generated clients get stable models.
 - Add `@ApiTags()` to every controller.
-- Add explicit response decorators such as `@ApiOkResponse()`, `@ApiCreatedResponse()`, and error responses for generated client clarity.
+- Add explicit response decorators such as `@ApiOkResponse()`, `@ApiCreatedResponse()`, and error responses, so the generated client knows the response and error shapes.
 - Do not return Drizzle rows, Better Auth internals, or other persistence/internal objects directly from controllers. Map them to API response models.
 - For arrays, use `@ApiOkResponse({ type: SomeModel, isArray: true })`.
 - For enums, use `@ApiProperty({ enum: SomeEnum })`.
 - For nullable fields, use `@ApiProperty({ nullable: true })` and a TypeScript `| null` type.
 
-## Endpoint Checklist
+## Endpoint checklist
 
 When adding or changing an endpoint:
 
@@ -52,14 +52,14 @@ When adding or changing an endpoint:
 6. Add or update e2e tests.
 7. Add or update matching Bruno requests under `bruno/collections/template-api/` for local manual testing.
 8. Run `pnpm api-contract:generate`.
-9. Check `apps/api/docs/openapi.json`, `packages/api-client/src/generated/`, or `/api-json` and confirm the schema includes the route and DTO models needed by client apps.
+9. Check `apps/api/docs/openapi.json`, `packages/api-client/src/generated/`, or `/api-json` and confirm the schema includes the route and DTO models the client apps need.
 
-Client apps should generate models/clients from `apps/api/docs/openapi.json` in source control, or from the runtime OpenAPI JSON route (`/api-json`) during local experiments.
+Client apps should generate models and clients from the committed `apps/api/docs/openapi.json`, or from the runtime `/api-json` route during local experiments.
 
-The `timestamps` feature is the template reference for generated client usage. It exposes only API models (`TimestampModel`, `CreateTimestampModel`, `UpdateTimestampModel`) and does not expose internal `user_id` persistence fields.
+The `timestamps` feature is the template reference for generated client usage. It exposes only API models (`TimestampModel`, `CreateTimestampModel`, `UpdateTimestampModel`) and hides the internal `user_id` persistence field.
 
 ## Health
 
 `/health` returns a shallow app health response: status, timestamp, uptime, `APP_ENV`, and `NODE_ENV`.
 
-Add database readiness later when we have behavior that genuinely depends on database availability. Keep readiness checks fast and deterministic.
+Add a database readiness check only once something depends on database availability. Keep readiness checks fast and deterministic.

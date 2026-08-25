@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 
 /**
- * This script is used to reset the project to a blank state.
- * It deletes or moves the /src and /scripts directories to /example based on user input and creates a new /src/app directory with an index.tsx and _layout.tsx file.
- * You can remove the `reset-project` script from package.json and safely delete this file after running it.
+ * Resets the project to a blank state.
+ * Asks whether to delete /src and /scripts or move them to /example, then
+ * creates a fresh /src/app with index.tsx and _layout.tsx.
+ * After running it you can drop the `reset-project` script from package.json
+ * and delete this file.
  */
 
 const fs = require("fs");

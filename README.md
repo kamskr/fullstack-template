@@ -1,6 +1,6 @@
-# Full-stack Template
+# Full-stack template
 
-Reusable full-stack template with one API, one generated API client, and separate web/mobile apps.
+Reusable full-stack template with one API, one generated API client, and separate web and mobile apps.
 
 ## Stack
 
@@ -10,7 +10,7 @@ Reusable full-stack template with one API, one generated API client, and separat
 - Contract: OpenAPI generated from the API, TypeScript client generated with Hey API.
 - Monorepo: pnpm workspaces and Turborepo.
 
-## Repo Map
+## Repo map
 
 ```text
 apps/api              NestJS API
@@ -19,12 +19,12 @@ apps/web              TanStack Start app
 packages/api-client   generated TypeScript API client
 packages/validators   shared Zod schemas for form/API input shapes
 bruno/                API request workspace
-docs/                 canonical architecture and workflow docs
+docs/                 architecture and workflow docs
 .agents/skills/       repository-local workflow skills
 scripts/              docs tooling (docs:list, docs:check) and contract freshness check
 ```
 
-## First Setup
+## First setup
 
 ```bash
 pnpm install
@@ -43,7 +43,7 @@ POSTGRES_PORT=5433
 DATABASE_URL=postgres://app_template:app_template@localhost:5433/app_template
 ```
 
-## Daily Development
+## Daily development
 
 Run all app dev servers:
 
@@ -75,7 +75,7 @@ pnpm mobile:dev
 pnpm web:dev
 ```
 
-## API Contract
+## API contract
 
 Regenerate OpenAPI and the shared TypeScript client:
 
@@ -88,11 +88,11 @@ Outputs:
 - `apps/api/docs/openapi.json`
 - `packages/api-client/src/generated/`
 
-Keep TanStack Query hooks app-local in `apps/web` and `apps/mobile`. Keep cross-app Zod schemas in `packages/validators` when web, mobile, and API should share the same input shape.
+Keep TanStack Query hooks app-local in `apps/web` and `apps/mobile`. Put a Zod schema in `packages/validators` only when web, mobile, and the API all need the same input shape.
 
-## Example Feature
+## Example feature
 
-The API includes authenticated timestamp CRUD as a minimal full-stack contract example:
+The API ships one example feature, authenticated timestamp CRUD:
 
 ```text
 GET    /timestamps
@@ -102,7 +102,7 @@ PATCH  /timestamps/:id
 DELETE /timestamps/:id
 ```
 
-Timestamp rows are scoped to the current Better Auth user. The API response exposes `id`, `note`, `dateOccurredAt`, `createdAt`, and `updatedAt`; the internal `user_id` is not exposed.
+Each timestamp row belongs to one Better Auth user and the API only returns the caller's rows. Responses carry `id`, `note`, `dateOccurredAt`, `createdAt`, and `updatedAt`, and hide `user_id`.
 
 ## Checks
 
@@ -125,7 +125,7 @@ pnpm --filter @template/api db:migrate
 pnpm --filter @template/api test:e2e
 ```
 
-## Creating A Project From This Template
+## Creating a project from this template
 
 Use the checklist:
 
@@ -135,7 +135,7 @@ docs/shared/template-checklist.md
 
 It lists every place to rename package names, Expo metadata, API metadata, database defaults, and Bruno workspace names.
 
-## Useful Docs
+## Docs
 
 - Docs index: `docs/README.md`
 - Monorepo notes: `docs/shared/monorepo.md`

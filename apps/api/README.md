@@ -44,7 +44,7 @@ pnpm api:openapi
 
 ## Database
 
-The template baseline contains Better Auth tables plus the authenticated `timestamps` example feature. Add project-domain schema under `src/database/schema/`, export it from `src/database/schema/index.ts`, then generate a new Drizzle migration.
+The template baseline contains the Better Auth tables plus the authenticated `timestamps` example feature. Add project-domain schema under `src/database/schema/`, export it from `src/database/schema/index.ts`, then generate a new Drizzle migration.
 
 Local PostgreSQL defaults:
 
@@ -56,9 +56,9 @@ If host port `5432` is already occupied, set `POSTGRES_PORT=5433` and update `DA
 
 ## Auth
 
-Better Auth is mounted at `/api/auth/*`. Email/password and anonymous auth are enabled for template prototyping.
+Better Auth is mounted at `/api/auth/*`. Email/password and anonymous sign-in are on.
 
-Required env keys are documented in `.env.example`.
+`.env.example` lists the required env keys.
 
 ## Docs
 

@@ -42,7 +42,7 @@ export function isCanonical(rootDir, filePath) {
 }
 
 // Every Markdown file in the repo gets its local links checked; only canonical
-// docs must carry frontmatter. Errors are reported as `path[:line]: message`.
+// docs must carry frontmatter. Reports errors as `path[:line]: message`.
 export async function checkDocs(rootDir) {
   const errors = [];
   const files = collectMarkdownFiles(rootDir);

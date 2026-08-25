@@ -1,5 +1,5 @@
 ---
-summary: Index of the canonical documentation layer and the rules for maintaining it.
+summary: Index of the documentation layer and the rules for maintaining it.
 read_when:
   - Starting work in this repository and deciding which docs apply.
   - Adding, moving, or removing a doc in docs/.
@@ -7,13 +7,13 @@ read_when:
 
 # Docs
 
-`docs/` is the single durable knowledge layer for this template: architecture, setup, workflows, behavior, runbooks, and framework gotchas. There is no parallel `agents/` notes tree.
+Everything worth keeping about this template lives in `docs/`: architecture, setup, workflows, behavior, runbooks, and framework gotchas. There is no separate `agents/` notes tree.
 
 Rules:
 
-- Every doc here carries `summary` and `read_when` YAML frontmatter, validated by `pnpm docs:check`.
-- Derive facts (ports, routes, commands, env keys) from source and config; do not restate guesses.
-- Update the smallest relevant doc in the same change that alters behavior, and use the `.agents/skills/docs-impact` skill to assess impact.
+- Every doc here has `summary` and `read_when` YAML frontmatter. `pnpm docs:check` fails without it.
+- Take facts (ports, routes, commands, env keys) from source and config, not from memory.
+- Update the smallest relevant doc in the same change that alters behavior. The `.agents/skills/docs-impact` skill walks through this.
 
 ## Index
 
@@ -44,7 +44,7 @@ Apps:
 ## Tooling
 
 ```bash
-pnpm docs:list    # list canonical docs with summaries
+pnpm docs:list    # list docs with summaries
 pnpm docs:check   # validate frontmatter and local Markdown links
 pnpm docs:test    # test the docs tooling itself
 ```

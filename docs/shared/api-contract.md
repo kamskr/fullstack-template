@@ -6,9 +6,9 @@ read_when:
   - Deciding where shared types, schemas, or query hooks belong.
 ---
 
-# API Contract
+# API contract
 
-The NestJS API is the source of truth.
+The NestJS API defines the contract. Everything else is generated from it.
 
 Flow:
 
@@ -31,10 +31,10 @@ pnpm api-contract:generate
 
 This runs `pnpm api:openapi` (writes `apps/api/docs/openapi.json`), then `pnpm api-client:generate` (writes `packages/api-client/src/generated/`). Commit both outputs with the API change.
 
-CI verifies freshness: `pnpm contract:check` (`scripts/api-contract-check.mjs`) regenerates the contract and fails on any diff against the committed files or on untracked generated files.
+CI runs `pnpm contract:check` (`scripts/api-contract-check.mjs`). It regenerates the contract and fails on any diff against the committed files or on untracked generated files.
 
-The API client uses `@hey-api/openapi-ts` with the fetch client plugin. It must stay platform-neutral: generated types, SDK functions, and fetch client support only, plus a very thin optional helper layer. Do not share backend implementation code with frontend apps.
+The API client uses `@hey-api/openapi-ts` with the fetch client plugin. It must run unchanged in the browser and in React Native, so it contains generated types, SDK functions, the fetch client, and at most a small optional helper on top. Do not share backend implementation code with frontend apps.
 
 Do not put TanStack Query hooks in `packages/api-client`. Keep query hooks app-local in `apps/web` and `apps/mobile` so each app controls cache keys, retries, auth/session handling, offline behavior, and UX.
 
-Use `packages/validators` for Zod schemas that intentionally apply across web, mobile, and API. Keep broad business logic out of shared packages.
+Use `packages/validators` for Zod schemas that web, mobile, and the API all use. Keep business logic out of shared packages.

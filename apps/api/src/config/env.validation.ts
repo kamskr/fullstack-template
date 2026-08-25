@@ -6,12 +6,12 @@ const defaultDatabaseUrl =
 const defaultBetterAuthSecret =
   'local-development-better-auth-secret-change-me-32';
 
-// Hosted deploys must supply these explicitly. Without this the local defaults
-// apply silently, so a staging service with a missing variable boots green
-// while signing sessions with a committed secret. `is` is written as an
-// explicit required schema so that an absent APP_ENV takes the `otherwise`
-// branch — Joi does not guarantee that a sibling key's own default is applied
-// before this reference resolves.
+// Hosted deploys must set these explicitly. Otherwise the local defaults
+// apply silently and a staging service with a missing variable boots green
+// while signing sessions with a committed secret. `is` is an explicit
+// required schema so that an absent APP_ENV takes the `otherwise` branch.
+// Joi does not promise to apply a sibling key's own default before this
+// reference resolves.
 const hostedOnly = <TSchema extends Joi.AnySchema>(
   schema: TSchema,
   localDefault: string,

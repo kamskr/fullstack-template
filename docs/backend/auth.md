@@ -1,12 +1,12 @@
 ---
-summary: Better Auth integration - routes, anonymous login, route policy, env keys, schema regeneration, and body parsing.
+summary: Better Auth routes, anonymous login, route policy, env keys, schema regeneration, and body parsing.
 read_when:
   - Changing auth config, plugins, or protected/public route policy.
   - Debugging auth cookies, CSRF/origin errors, or request body parsing.
   - Regenerating the Better Auth Drizzle schema.
 ---
 
-# Backend Auth
+# Backend auth
 
 ## Better Auth
 
@@ -14,7 +14,7 @@ Better Auth runs inside NestJS at `/api/auth/*` through `@thallesp/nestjs-better
 
 The API also installs `@better-auth/expo` so Expo native clients can persist and replay auth cookies through the Better Auth Expo client plugin.
 
-Useful smoke check:
+Smoke check:
 
 ```bash
 curl http://localhost:3000/api/auth/ok
@@ -26,11 +26,11 @@ Expected response:
 {"ok":true}
 ```
 
-## Anonymous Login
+## Anonymous login
 
-Anonymous auth is enabled with Better Auth's anonymous plugin.
+The Better Auth anonymous plugin handles anonymous sign-in.
 
-Useful smoke check:
+Smoke check:
 
 ```bash
 curl -X POST http://localhost:3000/api/auth/sign-in/anonymous \
@@ -53,38 +53,38 @@ curl -X POST http://localhost:3000/api/auth/delete-anonymous-user \
   -H 'Cookie: better-auth.session_token=...'
 ```
 
-## Route Policy
+## Route policy
 
-The Better Auth Nest module global guard is intentionally enabled. App/domain routes require authentication by default.
+The Better Auth Nest module's global guard is on. App/domain routes require authentication by default.
 
-Use `@AllowAnonymous()` only for deliberate public routes. Current public controllers:
+Use `@AllowAnonymous()` only for routes that should be public. Current public controllers:
 
 - `AppController` (`/`)
 - `HealthController` (`/health`)
 
-Swagger middleware routes (`/api`, `/api-json`) are not controller routes, but keep e2e coverage so OpenAPI remains reachable locally.
+Swagger middleware routes (`/api`, `/api-json`) are not controller routes, but keep e2e coverage so OpenAPI stays reachable locally.
 
-## Local Environment
+## Local environment
 
-Required env keys are documented in `.env.example`:
+`.env.example` lists the required env keys:
 
 - `BETTER_AUTH_SECRET`: 32+ chars. Use `openssl rand -base64 32` for real environments.
 - `BETTER_AUTH_URL`: backend base URL, e.g. `http://localhost:3000` locally.
 - `BETTER_AUTH_TRUSTED_ORIGINS`: comma-separated origins allowed for auth callbacks/CORS.
 
-Local template defaults include web and Expo dev origins:
+The local defaults include the web and Expo dev origins:
 
 ```text
 http://localhost:3000,http://localhost:3001,templatemobile://,templatemobile://*,exp://,exp://**
 ```
 
-Keep these explicit for cookie auth. Do not use `*` for browser credentialed requests.
+List origins explicitly for cookie auth. Do not use `*` for browser credentialed requests.
 
-Local defaults are intentionally non-production. Do not reuse them in staging or production.
+The local defaults are not safe for staging or production. Do not reuse them there.
 
-## Schema And Migrations
+## Schema and migrations
 
-Better Auth Drizzle schema lives in `src/database/schema/auth.ts` and is exported from `src/database/schema/index.ts`.
+The Better Auth Drizzle schema lives in `src/database/schema/auth.ts` and is exported from `src/database/schema/index.ts`.
 
 When Better Auth config or plugins change:
 
@@ -94,10 +94,10 @@ pnpm --filter @template/api db:generate
 pnpm --filter @template/api db:migrate
 ```
 
-Use Drizzle migrations for durable schema changes; do not run Better Auth direct migrations against the app database.
+Use Drizzle migrations for schema changes; do not run Better Auth's own migrations against the app database.
 
-## Body Parsing
+## Body parsing
 
 Better Auth needs Nest booted with `bodyParser: false` so `/api/auth/*` can handle request bodies itself.
 
-App JSON endpoints still need parsed bodies. Use `setupJsonBodyParsing(app)` from `src/body-parsing.ts` after creating the Nest app and before `app.init()`/`app.listen()`. It skips `/api/auth/*` and applies `express.json()` to the rest of the app.
+App JSON endpoints still need parsed bodies. Call `setupJsonBodyParsing(app)` from `src/body-parsing.ts` after creating the Nest app and before `app.init()`/`app.listen()`. It skips `/api/auth/*` and applies `express.json()` to the rest of the app.

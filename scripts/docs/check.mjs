@@ -12,5 +12,5 @@ if (errors.length > 0) {
 }
 
 console.log(
-  `docs:check OK — ${fileCount} Markdown files, ${canonicalCount} canonical docs, ${linkCount} local links`,
+  `docs:check OK: ${fileCount} Markdown files, ${canonicalCount} canonical docs, ${linkCount} local links`,
 );
