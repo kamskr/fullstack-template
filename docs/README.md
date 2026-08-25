@@ -39,6 +39,7 @@ Backend (`apps/api`):
 Apps:
 
 - [mobile/architecture.md](mobile/architecture.md): Expo app architecture notes.
+- [mobile/native-modules.md](mobile/native-modules.md): pnpm and Expo traps when adding native modules and moving to a development build.
 - [web/architecture.md](web/architecture.md): TanStack Start app architecture notes.
 
 ## Tooling
